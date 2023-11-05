@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "TyL/P4Ki10AS0UrHiOZDdwKco51NUp205I7tTgeYBUcvhZx0G/pvZZvoxPXw5t4gXR9RskK1oYBzbnUKg8oBHw==",
+  "success": true,
+  "projectFilePath": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\PythonVenvDetails\\PythonVenvDetails.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\futur\\.nuget\\packages\\powershellstandard.library\\5.1.1\\powershellstandard.library.5.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}

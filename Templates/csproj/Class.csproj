@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>{TargetFramework}</TargetFrameworks>
+    <AllowUnsafeBlocks>{AllowUnsafeBlocks}</AllowUnsafeBlocks>
+    <Nullable>{Nullable}</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>
