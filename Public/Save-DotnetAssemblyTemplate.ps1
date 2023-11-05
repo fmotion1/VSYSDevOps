@@ -1,4 +1,4 @@
-﻿function New-DotnetAssemblyTemplate {
+﻿function Save-DotnetAssemblyTemplate {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
