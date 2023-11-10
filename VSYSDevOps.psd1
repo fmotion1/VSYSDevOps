@@ -23,19 +23,22 @@
     # PowerShellHostName = ''
 
     RequiredModules = @('PwshSpectreConsole')
-    RequiredAssemblies = @('Lib\PythonVenvDetails.dll')
+    RequiredAssemblies = @( "$PSScriptRoot\Lib\PythonVenvDetails.dll" )
 
-    FunctionsToExport = 'Get-NodeGlobalPackagesByVersion',
-                        'Get-NodeGlobalPackages',
-                        'Get-NodeVersions',
+    FunctionsToExport = 'Get-NodeGlobalPackages',
+                        'Get-NodeVersionsWithNVM',
+                        'Get-PythonVersions',
                         'Get-PythonVENVDetails',
                         'Save-DotnetAssemblyTemplate',
                         'Save-GitignoreToFolder',
                         'Save-LicenseToFolder',
                         'Update-NodeGlobalPackagesPerVersion',
                         'Install-NodeGlobalPackages',
+                        'Install-PythonGlobalPackages',
                         'Uninstall-NodeGlobalPackages',
-                        'Confirm-NPMPackageExistsInRegistry'
+                        'Confirm-NPMPackageExistsInRegistry',
+                        'Confirm-PythonPyPiPackageExists',
+                        'Invoke-InteractiveNewNodeProject'
                         
 
     PrivateData = @{

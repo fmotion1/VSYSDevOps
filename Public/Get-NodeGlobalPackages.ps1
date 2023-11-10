@@ -1,29 +1,33 @@
 ﻿function Get-NodeGlobalPackages {
     # Ensure NVM is installed and available in the current session
-    if (-not (Get-Command "nvm" -ErrorAction SilentlyContinue)) {
+    if (-not (Get-Command nvm.exe)) {
         Write-Error "NVM does not appear to be installed or is not in the PATH."
         return
     }
 
-    # Get all installed Node versions using NVM
-    $nodeVersions = & nvm list
+    $Versions = Get-NodeVersionsWithNVM -VersionOnly
 
-    # Filter and clean up the version list
-    $nodeVersions = $nodeVersions | Where-Object { $_ -match '^\s*\d+\.\d+\.\d+' } | ForEach-Object { $_.Trim() }
+    foreach ($v in $Versions) {
 
-    # Iterate over each version to list global NPM packages
-    foreach ($version in $nodeVersions) {
-        Write-Host "Listing globally installed NPM packages for Node version: $version"
+        Write-SpectreHost "[white]Listing globally installed NPM packages for Node version: [/][#6A90FF]v$v[/]"
 
-        # Use NVM to switch to the current version
-        & nvm use $version > $null
+        $NVMCmd = Get-Command nvm.exe
+        & $NVMCmd use $v > $null
 
-        # List global NPM packages
         $NPMCmd = Get-Command npm.cmd
         $globalPackages = & $NPMCmd list -g --depth=0
 
-        Write-Output "Node version: $version"
-        Write-Output $globalPackages
+        Write-SpectreHost "Node version: [white]v$v[/]"
+        $Packages = ($globalPackages -split "\r?\n") | % {
+            if([String]::IsNullOrEmpty($_)){
+                return
+            }
+            $_
+        }
+        foreach ($Package in $Packages) {
+            Write-SpectreHost $Package
+        }
+        #Write-Output $globalPackages
         Write-Output "------------------------------------------------"
     }
 }
