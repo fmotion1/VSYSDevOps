@@ -24,7 +24,11 @@
         [Parameter(Mandatory=$false, ParameterSetName='VersionOnly', HelpMessage="Add branch labels to results")]
         [Parameter(Mandatory=$false, ParameterSetName='VersionAndPath', HelpMessage="Add branch labels to results")]
         [switch]
-        $ShowBranch
+        $ShowBranch,
+
+        [Parameter(Mandatory=$false)]
+        [Switch]
+        $ShowTable
     )
 
 
@@ -135,6 +139,7 @@
                 return
             }
             if($IncludeBranch){
+                
                 [PSCustomObject]@{
                     Version = $nodeVersion
                     Branch = $nodeBranch

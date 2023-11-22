@@ -58,7 +58,7 @@ function Invoke-InteractiveNewNodeProject {
     & $NVMCmd use $Version | Out-Null
 
     $NPMCmd = Get-Command npm.cmd
-    & $NPMCmd init -y | Out-Null
+    & $NPMCmd init -y
 
     '' | Out-File -LiteralPath "$Folder/index.js" -Force
 

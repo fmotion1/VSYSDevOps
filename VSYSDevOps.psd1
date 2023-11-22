@@ -38,7 +38,9 @@
                         'Uninstall-NodeGlobalPackages',
                         'Confirm-NPMPackageExistsInRegistry',
                         'Confirm-PythonPyPiPackageExists',
-                        'Invoke-InteractiveNewNodeProject'
+                        'Invoke-InteractiveNewNodeProject',
+                        'Save-LicenseToFolder',
+                        'Get-LicenseTemplates'
                         
 
     PrivateData = @{
