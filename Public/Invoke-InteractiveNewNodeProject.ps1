@@ -2,7 +2,7 @@
 
 class NodeVersions : IValidateSetValuesGenerator {
     [string[]] GetValidValues() {
-        $v = Get-NodeVersionsWithNVM -VersionOnly
+        $v = Get-InstalledNodeVersionsWithNVM -VersionOnly
         return $v
     }
 }
@@ -33,7 +33,7 @@ function Invoke-InteractiveNewNodeProject {
 
     if([String]::IsNullOrWhiteSpace($Version)) {
 
-        $Versions = Get-NodeVersionsWithNVM -VersionOnly -Branch CURRENT -InsertLeadingV
+        $Versions = Get-InstalledNodeVersionsWithNVM -VersionOnly -Branch CURRENT -InsertLeadingV
         Write-SpectreHost -Message "[white]No version of Node was passed.[/]"
         $TargetVersion = Read-SpectreSelection -Title "Select the version of [white]NodeJS[/] that you want to deploy." -Choices $Versions
 

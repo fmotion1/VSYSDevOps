@@ -1,4 +1,4 @@
-﻿function Get-NodeVersionsWithNVM {
+﻿function Get-InstalledNodeVersionsWithNVM {
     [CmdletBinding(DefaultParameterSetName = 'All')]
     param (
 
@@ -28,7 +28,7 @@
 
         [Parameter(Mandatory=$false)]
         [Switch]
-        $ShowTable
+        $HideTable
     )
 
 
@@ -186,19 +186,16 @@
         $Output = & $GetPathsAndVersions @outputSplat
     }
 
-    if($ShowTable){
+    if(!$HideTable){
         $ValueArr = @()
         foreach ($Flag in $Output) {
             $ValueArr += $Flag
         }
-
         Format-SpectreTable -Data $ValueArr -Border Square -Color Grey27
 
     }else{
-
         $Output
-
     }
 }
 
-#Get-NodeVersionsWithNVM -InsertLeadingV -VersionAndPath -ShowTable
+Get-InstalledNodeVersionsWithNVM

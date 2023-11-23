@@ -19,3 +19,5 @@ function Get-LicenseTemplates {
         return $FolderDetails | Sort-Object -Descending
     }
 }
+
+Get-LicenseTemplates

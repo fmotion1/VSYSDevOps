@@ -1,12 +1,14 @@
-﻿function Get-PythonVersions {
+﻿function Get-InstalledPythonVersionsPYLauncher {
     [CmdletBinding(DefaultParameterSetName = 'All')]
     param (
 
         [Parameter(Mandatory=$false, HelpMessage="Display only Paths")]
+        [Parameter(Mandatory, ParameterSetName='VersionOnly', HelpMessage="Display only Paths")]
         [switch]
         $PathOnly,
 
         [Parameter(Mandatory=$false, HelpMessage="Display only Versions")]
+        [Parameter(Mandatory, ParameterSetName='VersionAndPath', HelpMessage="Display only versions")]
         [switch]
         $VersionOnly,
 
@@ -19,19 +21,9 @@
         [switch]
         $InsertLeadingV,
 
-        [Parameter(Mandatory=$false, ParameterSetName='All')]
-        [Parameter(Mandatory, ParameterSetName='LatestOnly', HelpMessage="Return only the latest version of Node")]
-        [Switch]
-        $GetLatestOnly,
-
-        [Parameter(Mandatory=$false, ParameterSetName='All')]
-        [Parameter(Mandatory, ParameterSetName='OldestOnly', HelpMessage="Return only the oldest version of Node")]
-        [Switch]
-        $GetOldestOnly,
-
         [Parameter(Mandatory=$false)]
         [Switch]
-        $NoTable
+        $ShowTable
     )
 
 
@@ -61,16 +53,19 @@
     }
 
     # Initialize Variables to store Python Launcher results
-
+    $PYLauncherCMD = Get-Command py.exe
     $pythonObjects = [System.Collections.Generic.List[Object]]@()
-    $PY1 = $(@(& $PYLauncherCMD -0)) -split "\r?\n"
-    $PY2 = $(@(& $PYLauncherCMD -0p)) -split "\r?\n"
+    $PY1 = (& $PYLauncherCMD -0) -split "\r?\n"
+    $PY2 = (& $PYLauncherCMD -0p) -split "\r?\n"
 
     # Parser for Python Launcher results
     for ($idx = 0; $idx -lt $PY1.Count; $idx++) {
 
-        $pyVersion = ''; $pyLabel = '';
-        $pyArch = ''; $pyPath = '';
+        $pyVersion = ''
+        $pyLabel   = ''
+        $pyArch    = ''
+        $pyPath    = ''
+        $pyBranch  = ''
 
         $line = $PY1[$idx] -replace '\* ', ''
         $parts = -split $line
@@ -84,6 +79,12 @@
         }
         elseif(($FilterVersion -eq '2') -and $pyVersionMajor -eq '3'){
             continue
+        }
+
+        if($pyVersion -like '3.*'){
+            $pyBranch = 'CURRENT'
+        }else{
+            $pyBranch = 'OLD'
         }
 
         if($InsertLeadingV) { $pyVersion = "v"+$pyVersion }
@@ -101,55 +102,38 @@
         }
         $pyPath = $finalPath
 
+
+
         $Results = [PSCustomObject]@{
-            Label = $pyLabel
+            Label   = $pyLabel
             Version = $pyVersion
-            Path = $pyPath
-            Arch = $pyArch
+            Branch  = $pyBranch
+            Path    = $pyPath
+            Arch    = $pyArch
         }
 
         $pythonObjects.Add($Results)
     }
 
     if($PathOnly){
-        if($GetLatestOnly){ $pythonObjects[0].Path }
-        elseif($GetOldestOnly){ $pythonObjects[$($pythonObjects.Count - 1)].Path }
-        else {
-            $pythonObjects | ForEach-Object {
-                $_.Path
-            }
+        if($ShowTable){
+            Format-SpectreTable -Data $pythonObjects Square Grey37
+        }else{
+            $pythonObjects | ForEach-Object { $_.Path }
         }
-        return
-    }
 
-    if($VersionOnly){
-        if($GetLatestOnly){ $pythonObjects[0].Version }
-        elseif($GetOldestOnly){ $pythonObjects[$($pythonObjects.Count - 1)].Version }
-        else {
-            $pythonObjects | ForEach-Object {
-                $_.Version
-            }
+    }
+    elseif($VersionOnly){
+        if($ShowTable){
+            Format-SpectreTable -Data $pythonObjects Square Grey37
+        }else{
+            $pythonObjects | ForEach-Object { $_.Version }
         }
-        return
     }
-
-    if($GetLatestOnly){
-        $pythonObjects[0]
-        return
+    else{
+        Format-SpectreTable -Data $pythonObjects Square Grey37
+        #$pythonObjects
     }
-
-    if($GetOldestOnly){
-        $pythonObjects[$($pythonObjects.Count - 1)]
-        return
-    }
-
-    $pythonObjects
-    
-    # if($NoTable){
-    #     $pythonObjects
-    # }else{
-    #     Format-SpectreTable -Data $pythonObjects -Border Square Grey39
-    # }
 }
 
-Get-PythonVersions 
+Get-InstalledPythonVersionsPYLauncher

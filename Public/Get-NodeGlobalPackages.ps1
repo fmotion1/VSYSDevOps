@@ -5,7 +5,7 @@
         return
     }
 
-    $Versions = Get-NodeVersionsWithNVM -VersionOnly
+    $Versions = Get-InstalledNodeVersionsWithNVM -VersionOnly
 
     foreach ($v in $Versions) {
 

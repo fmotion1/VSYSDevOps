@@ -26,8 +26,8 @@
     RequiredAssemblies = @( "$PSScriptRoot\Lib\PythonVenvDetails.dll" )
 
     FunctionsToExport = 'Get-NodeGlobalPackages',
-                        'Get-NodeVersionsWithNVM',
-                        'Get-PythonVersions',
+                        'Get-InstalledNodeVersionsWithNVM',
+                        'Get-InstalledPythonVersionsPYLauncher',
                         'Get-PythonVENVDetails',
                         'Save-DotnetAssemblyTemplate',
                         'Save-GitignoreToFolder',
