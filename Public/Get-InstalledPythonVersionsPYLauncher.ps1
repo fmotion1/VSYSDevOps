@@ -135,5 +135,3 @@
         #$pythonObjects
     }
 }
-
-Get-InstalledPythonVersionsPYLauncher

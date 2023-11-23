@@ -197,5 +197,3 @@
         $Output
     }
 }
-
-Get-InstalledNodeVersionsWithNVM
