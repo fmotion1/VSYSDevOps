@@ -44,7 +44,7 @@
 
     ## Check if NVM is available on the system PATH
     try {
-        $NVMCMD = Get-Command nvm.exe
+        $NVMCMD = Get-Command nvm -CommandType Application
     } catch {
         $ErrorText = "NVM Node Version Manager isn't installed or available in your PATH environment variable."
         $eRecord = [System.Management.Automation.ErrorRecord]::new(
@@ -139,7 +139,6 @@
                 return
             }
             if($IncludeBranch){
-                
                 [PSCustomObject]@{
                     Version = $nodeVersion
                     Branch = $nodeBranch
@@ -179,7 +178,7 @@
     }
     elseif($VersionAndPath){
         $outputSplat = @{
-            NVMListInput   = $NODE2
+            NVMRootInput   = $NODE2
             InsertV        = $InsertLeadingV
             IncludeBranch  = $ShowBranch
             FilterBranch   = $Branch
@@ -187,5 +186,19 @@
         $Output = & $GetPathsAndVersions @outputSplat
     }
 
-    $Output
+    if($ShowTable){
+        $ValueArr = @()
+        foreach ($Flag in $Output) {
+            $ValueArr += $Flag
+        }
+
+        Format-SpectreTable -Data $ValueArr -Border Square -Color Grey27
+
+    }else{
+
+        $Output
+
+    }
 }
+
+#Get-NodeVersionsWithNVM -InsertLeadingV -VersionAndPath -ShowTable

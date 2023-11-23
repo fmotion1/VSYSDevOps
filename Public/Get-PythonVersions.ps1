@@ -27,7 +27,11 @@
         [Parameter(Mandatory=$false, ParameterSetName='All')]
         [Parameter(Mandatory, ParameterSetName='OldestOnly', HelpMessage="Return only the oldest version of Node")]
         [Switch]
-        $GetOldestOnly
+        $GetOldestOnly,
+
+        [Parameter(Mandatory=$false)]
+        [Switch]
+        $NoTable
     )
 
 
@@ -57,9 +61,8 @@
     }
 
     # Initialize Variables to store Python Launcher results
-    
-    $pythonObjects = [System.Collections.Generic.List[Object]]@()
 
+    $pythonObjects = [System.Collections.Generic.List[Object]]@()
     $PY1 = $(@(& $PYLauncherCMD -0)) -split "\r?\n"
     $PY2 = $(@(& $PYLauncherCMD -0p)) -split "\r?\n"
 
@@ -142,4 +145,11 @@
 
     $pythonObjects
     
+    # if($NoTable){
+    #     $pythonObjects
+    # }else{
+    #     Format-SpectreTable -Data $pythonObjects -Border Square Grey39
+    # }
 }
+
+Get-PythonVersions 

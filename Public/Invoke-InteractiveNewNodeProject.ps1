@@ -31,7 +31,7 @@ function Invoke-InteractiveNewNodeProject {
         return
     }
 
-    if([String]::IsNullOrWhiteSpace($Version)){
+    if([String]::IsNullOrWhiteSpace($Version)) {
 
         $Versions = Get-NodeVersionsWithNVM -VersionOnly -Branch CURRENT -InsertLeadingV
         Write-SpectreHost -Message "[white]No version of Node was passed.[/]"
