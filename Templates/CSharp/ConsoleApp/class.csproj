@@ -1,8 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFrameworks>{TargetFramework}</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>{TargetFramework}</TargetFramework>
+    <ImplicitUsings>{ImplicitUsings}</ImplicitUsings>
     <AllowUnsafeBlocks>{AllowUnsafeBlocks}</AllowUnsafeBlocks>
     <Nullable>{Nullable}</Nullable>
+    <Platforms>{PlatformArch}</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,4 +14,5 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+
 </Project>

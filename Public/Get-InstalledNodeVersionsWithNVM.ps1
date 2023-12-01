@@ -28,7 +28,7 @@
 
         [Parameter(Mandatory=$false)]
         [Switch]
-        $HideTable
+        $Table
     )
 
 
@@ -40,20 +40,6 @@
     if($GetLatestOnly -and $GetOldestOnly){
         Write-Error "GetLatestOnly and GetOldestOnly cannot be used together."
         return
-    }
-
-    ## Check if NVM is available on the system PATH
-    try {
-        $NVMCMD = Get-Command nvm -CommandType Application
-    } catch {
-        $ErrorText = "NVM Node Version Manager isn't installed or available in your PATH environment variable."
-        $eRecord = [System.Management.Automation.ErrorRecord]::new(
-            [System.Management.Automation.CommandNotFoundException]::new($ErrorText),
-            'CommandNotFound',
-            'CommandNotFound',
-            $NVMCMD
-        )
-        $PSCmdlet.ThrowTerminatingError($eRecord)
     }
 
     # Version Branch Parser
@@ -155,6 +141,22 @@
     }
 
     # End Parsing and Begin Logic
+
+    ## Check if NVM is available on the system PATH
+    try {
+        $NVMCMD = Get-Command nvm -CommandType Application
+    } catch {
+        $ErrorText = "NVM Node Version Manager isn't installed or available in your PATH environment variable."
+        $eRecord = [System.Management.Automation.ErrorRecord]::new(
+            [System.Management.Automation.CommandNotFoundException]::new($ErrorText),
+            'CommandNotFound',
+            'CommandNotFound',
+            $NVMCMD
+        )
+        Write-Error $eRecord
+        return 2
+    }
+
     $NODE1 = & $NVMCMD list
     $NODE2 = & $NVMCMD root
 
@@ -186,14 +188,21 @@
         $Output = & $GetPathsAndVersions @outputSplat
     }
 
-    if(!$HideTable){
-        $ValueArr = @()
-        foreach ($Flag in $Output) {
-            $ValueArr += $Flag
+    if($Table){
+        
+        $DataArr = @()
+        foreach ($Property in $Output) {
+            $O = [pscustomobject]@{}
+            if($Property.Version){ $O | Add-Member -Name 'Version' -Type NoteProperty -Value $Property.Version }
+            if($Property.Branch){ $O | Add-Member -Name 'Branch' -Type NoteProperty -Value $Property.Branch }
+            if($Property.Path){ $O | Add-Member -Name 'Path' -Type NoteProperty -Value $Property.Path }
+            $DataArr += $O
         }
-        Format-SpectreTable -Data $ValueArr -Border Square -Color Grey27
+        Format-SpectreTable -Data $DataArr -Border Square -Color Grey27
 
     }else{
         $Output
     }
 }
+
+#Get-InstalledNodeVersionsWithNVM -Table

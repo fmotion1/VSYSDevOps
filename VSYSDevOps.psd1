@@ -30,6 +30,7 @@
                         'Get-InstalledPythonVersionsPYLauncher',
                         'Get-PythonVENVDetails',
                         'Save-DotnetAssemblyTemplate',
+                        'Save-DotnetConsoleAppTemplate',
                         'Save-GitignoreToFolder',
                         'Save-LicenseToFolder',
                         'Update-NodeGlobalPackagesPerVersion',
