@@ -9,31 +9,31 @@ class NodeVersions : IValidateSetValuesGenerator {
 <#
     .SYNOPSIS
     This function returns the installed Node.js versions with Node Version Manager (NVM).
-    
+
     .PARAMETER VersionOnly
     Optional switch to display only the version numbers of installed Node.js versions. If neither VersionOnly nor VersionAndPath are specified, default output will be used.
-    
+
     .PARAMETER VersionAndPath
     Optional switch to display both the version numbers and installation paths of the installed Node.js versions.
-    
+
     .PARAMETER FilterVersions
     Optional parameter specifying an array of specific versions to return, validated against installed Node.js versions.
-    
+
     .PARAMETER Branch
     A string parameter to filter installations by branch. The accepted values are "CURRENT", "OLD", and "ALL". The default value is "ALL".
-    
+
     .PARAMETER ShowBranch
     Optional switch that adds the branch column to the results if desired.
-    
+
     .PARAMETER Table
     A switch parameter. When specified, the results will be formatted as a table for better readability.
-    
+
     .PARAMETER TableBorder
     This parameter accepts a string representation of the desired style for the table border when displaying results in a table format.
-    
+
     .EXAMPLE
     Get-InstalledNodeVersionsWithNVM -VersionAndPath -FilterVersions '12.18.3', '14.5.0' -Table
-    
+
     This example retrieves the version and install path information for Node.js versions 12.18.3 and 14.5.0, and displays the results in a table format.
 #>
 function Get-InstalledNodeVersionsWithNVM {
@@ -64,7 +64,7 @@ function Get-InstalledNodeVersionsWithNVM {
         [ValidateSpectreTableBorder()]
         [ArgumentCompletionsSpectreTableBorder()]
         [String] $TableBorder = "Square"
-        
+
     )
 
     process {
@@ -72,7 +72,7 @@ function Get-InstalledNodeVersionsWithNVM {
         if ($VersionOnly -and $VersionAndPath) {
             throw "VersionOnly and VersionAndPath cannot be used together."
         }
-        
+
         # Retrieves the command for executing NVM from the system.
         ## Check if NVM is available on the system PATH
 
@@ -104,7 +104,7 @@ function Get-InstalledNodeVersionsWithNVM {
         Write-Verbose "Retrieving all directories starting with 'v' from the NVM root directory"
 
         $NodeDirsFull = ((Get-ChildItem -Path $NVMRoot -Filter 'v*' -Directory).FullName).TrimStart('v')
-        
+
         # Gets the list of installed Node.js versions using the "list"
         # command in NVM, splits the result by new lines, removes any
         # empty or null values, and stores the clean list in
@@ -113,7 +113,7 @@ function Get-InstalledNodeVersionsWithNVM {
         Write-Verbose "Retrieving and parsing a list of all installed Node.js versions via 'nvm list'."
 
         $NodeVersions = (& $NVMCmd list) | % { $_ -split '\r?\n'} | % { if(![String]::IsNullOrEmpty($_)){ $_ } }
-        
+
         # cleans up the NodeVersions array by removing extra
         # characters such as '*', '(', ')', any text within
         # parentheses, and leading/trailing spaces.
@@ -135,11 +135,9 @@ function Get-InstalledNodeVersionsWithNVM {
 
         try {
             foreach ($dir in $directories) {
-
                 if($null -eq $dir){
                     throw "A directory parsed from 'nvm root' output evaluated to null."
                 }
-
                 if ($dir -match "v(\d+\.\d+\.\d+)$") {
                     $versionDirectoryMap[$Matches[1]] = $dir
                 }
@@ -198,9 +196,9 @@ function Get-InstalledNodeVersionsWithNVM {
         }
 
         # Below is responsible for arranging and formatting output
-        # data to be displayed as a visual table in the terminal. 
+        # data to be displayed as a visual table in the terminal.
         # This operates when the -Table flag to be set.
-        # PwshSpectreConsole is required for this to function. 
+        # PwshSpectreConsole is required for this to function.
         if ($Table) {
             if ($VersionOnly) {
                 # Prepare data for Format-SpectreTable with only Version column

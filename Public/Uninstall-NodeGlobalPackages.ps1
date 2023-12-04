@@ -6,33 +6,53 @@ class NodeVersions : IValidateSetValuesGenerator {
         return $v
     }
 }
+<#
+    .SYNOPSIS
+        Uninstalls one or more Node.js global packages for a specific node version.
 
+    .DESCRIPTION
+        The Uninstall-NodeGlobalPackages function uninstalls specified Node.js global packages from the
+        given node version. The user can choose to be prompted for confirmation before each uninstallation.
+
+    .PARAMETER Version
+        Mandatory parameter. Specifies the version of Node.js from which the packages will be uninstalled.
+        This parameter accepts node versions validated against the 'NodeVersions' set.
+
+    .PARAMETER Packages
+        Mandatory parameter. An array of strings specifying the names of the Node.js packages to be uninstalled.
+
+    .PARAMETER Prompt
+        Switch parameter. If this switch is provided, the function will prompt for confirmation before
+        uninstalling the packages. The default is to not prompt.
+
+    .EXAMPLE
+        Uninstall-NodeGlobalPackages -Version "14.0.0" -Packages "package1", "package2", "package3"
+
+    .EXAMPLE
+        Uninstall-NodeGlobalPackages -Version "14.0.0" -Packages "package1" -Prompt
+
+    .NOTES
+        In order to use this function, nvm (Node Version Manager) and npm must be installed in your system.
+#>
 function Uninstall-NodeGlobalPackages {
     param(
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=0,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [ValidateSet([NodeVersions])]
         $Version,
 
-        [Parameter(Mandatory=$false)]
-        [Switch]
-        $Prompt,
-
-        [Parameter(Mandatory,ValueFromRemainingArguments)]
+        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
         [String[]]
-        $Packages
+        $Packages,
 
+        [Switch]$Prompt
     )
 
     if($Prompt){
-        $PackagesList = $Packages
-        $Plural = 'package'
-        if($Packages.Count -gt 1){
-            $Plural = 'packages'
-            $PackagesList = $Packages -join ', '
-        }
+        $PackagesList = $Packages -join ', '
+        $Plural = ($Packages.Count -gt 1) ? 'packages' : 'package'
         Write-SpectreHost "The $Plural [white]$PackagesList[/] will be uninstalled in the following node version: [white]$Version[/]"
-        $Result = Read-Host "Do you want to continue? [Y]"
-        if($Result -ne 'y') { exit }
+        $Result = Read-SpectreConfirm -Prompt "Do you want to continue?"
+        if($Result -ne 'True') { exit }
     }
 
     & nvm use $Version

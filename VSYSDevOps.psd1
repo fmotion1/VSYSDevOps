@@ -39,7 +39,6 @@
                         'Uninstall-NodeGlobalPackages',
                         'Confirm-NPMPackageExistsInRegistry',
                         'Confirm-PythonPyPiPackageExists',
-                        'Invoke-InteractiveNewNodeProject',
                         'Save-LicenseToFolder',
                         'Get-LicenseTemplates',
                         'Get-InstalledNodeVersionsCompleter'
