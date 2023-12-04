@@ -6,10 +6,7 @@ class NodeVersions : IValidateSetValuesGenerator {
         return $v
     }
 }
-
-function Get-InstalledNodeVersionsWithNVM {
-
-    <#
+<#
     .SYNOPSIS
     This function returns the installed Node.js versions with Node Version Manager (NVM).
     
@@ -38,8 +35,8 @@ function Get-InstalledNodeVersionsWithNVM {
     Get-InstalledNodeVersionsWithNVM -VersionAndPath -FilterVersions '12.18.3', '14.5.0' -Table
     
     This example retrieves the version and install path information for Node.js versions 12.18.3 and 14.5.0, and displays the results in a table format.
-    #>
-
+#>
+function Get-InstalledNodeVersionsWithNVM {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false, HelpMessage="Display only versions.")]
@@ -77,19 +74,44 @@ function Get-InstalledNodeVersionsWithNVM {
         }
         
         # Retrieves the command for executing NVM from the system.
-        $NVMCmd = Get-Command nvm.exe
+        ## Check if NVM is available on the system PATH
+
+        Write-Verbose "Checking if NVM is installed and available in PATH."
+
+        try {
+            $NVMCmd = Get-Command nvm -CommandType Application
+        } catch {
+            $ErrorText = "NVM Node Version Manager isn't installed or available in your PATH environment variable."
+            $eRecord = [System.Management.Automation.ErrorRecord]::new(
+                [System.Management.Automation.CommandNotFoundException]::new($ErrorText),
+                'CommandNotFound',
+                'CommandNotFound',
+                $NVMCmd
+            )
+            Write-Error $eRecord
+            return 2
+        }
+
+        Write-Verbose "NVM was found. Now attempting to invoke nvm root to retrieve output."
+
         $NVMRoot = (& $NVMCmd root)[1] -replace 'Current Root: '
 
         # Retrieve all child directories starting with 'v' from the
         # NVM installation root directory, trim off the 'v' at the
         # start, and store the array of full directory paths in the
         # NodeDirsFull variable.
+
+        Write-Verbose "Retrieving all directories starting with 'v' from the NVM root directory"
+
         $NodeDirsFull = ((Get-ChildItem -Path $NVMRoot -Filter 'v*' -Directory).FullName).TrimStart('v')
         
         # Gets the list of installed Node.js versions using the "list"
         # command in NVM, splits the result by new lines, removes any
         # empty or null values, and stores the clean list in
         # NodeVersions.
+
+        Write-Verbose "Retrieving and parsing a list of all installed Node.js versions via 'nvm list'."
+
         $NodeVersions = (& $NVMCmd list) | % { $_ -split '\r?\n'} | % { if(![String]::IsNullOrEmpty($_)){ $_ } }
         
         # cleans up the NodeVersions array by removing extra
@@ -106,31 +128,40 @@ function Get-InstalledNodeVersionsWithNVM {
         $versions = $versionString -split "`n"
         $directories = $directoryString -split "`n"
 
+        Write-Verbose "Creating a hashtable (map) to correlate Node versions with directories."
+
         # Create a hashtable to associate versions with directories
         $versionDirectoryMap = @{}
-        foreach ($dir in $directories) {
-            if ($dir -match "v(\d+\.\d+\.\d+)$") {
-                $versionDirectoryMap[$Matches[1]] = $dir
+
+        try {
+            foreach ($dir in $directories) {
+
+                if($null -eq $dir){
+                    throw "A directory parsed from 'nvm root' output evaluated to null."
+                }
+
+                if ($dir -match "v(\d+\.\d+\.\d+)$") {
+                    $versionDirectoryMap[$Matches[1]] = $dir
+                }
             }
         }
+        catch {
+            Write-Error "Error: $_"
+        }
+
+        Write-Verbose "The content of `$FilterVersions is: $FilterVersions"
+        Write-Verbose "Selecting only the versions that the user requested."
 
         # Filter the versions if FilterVersions is specified
         if ($FilterVersions) {
             $versions = $versions | Where-Object { $_ -in $FilterVersions }
         }
 
-        # Defines an array ($output) to store the desired output of
-        # installed Node.js versions, their branches (either "OLD" or
-        # "CURRENT"), and paths.
+        # Generate the output
         $output = @()
         foreach ($version in $versions) {
             $branchValue = if ($version.StartsWith("0")) { "OLD" } else { "CURRENT" }
-           
             if ($Branch -eq "ALL" -or $Branch -eq $branchValue) {
-                
-                # Retrieves the path associated with the current
-                # version from the $versionDirectoryMap hashtable
-                # and assigns it to the $path variable.
                 $path = $versionDirectoryMap[$version]
 
                 $obj = [PSCustomObject]@{
@@ -139,55 +170,53 @@ function Get-InstalledNodeVersionsWithNVM {
                     Path = $path
                 }
 
-                # Adjust the object based on switches
-                if ($VersionOnly) {
-                    if ($ShowBranch) {
-                        $output += [PSCustomObject]@{
-                            Version = $version
-                            Branch = $branchValue
-                        }
-                    } else {
-                        $output += [PSCustomObject]@{
-                            Version = $version
-                        }
-                    }
-                } elseif ($VersionAndPath) {
-                    if ($ShowBranch) {
-                        $output += [PSCustomObject]@{
-                            Version = $version
-                            Branch = $branchValue
-                            Path = $path
-                        }
-                    } else {
-                        $output += [PSCustomObject]@{
-                            Version = $version
-                            Path = $path
-                        }
-                    }
+                if ($VersionOnly -and -not $Table) {
+                    # Add only the version if VersionOnly is specified and not in table format
+                    $output += $version
                 } else {
-                    $output += $obj
+                    # Adjust the object based on switches
+                    if ($VersionAndPath) {
+                        if ($ShowBranch) {
+                            $output += [PSCustomObject]@{
+                                Version = $version
+                                Branch = $branchValue
+                                Path = $path
+                            }
+                        } else {
+                            $output += [PSCustomObject]@{
+                                Version = $version
+                                Path = $path
+                            }
+                        }
+                    } else {
+                        $output += $obj
+                    }
                 }
             }
         }
 
-        # Handles the visualization of output when the $Table switch is used.
+        # Process the output based on the Table switch
         if ($Table) {
-            # Prepare data for Format-SpectreTable
-            $DataArr = @()
-            foreach ($Property in $output) {
-                $tempObj = [PSCustomObject]@{}
-                foreach ($propName in $Property.PSObject.Properties.Name) {
-                    $tempObj | Add-Member -Name $propName -Type NoteProperty -Value $Property.$propName
+            if ($VersionOnly) {
+                # Prepare data for Format-SpectreTable with only Version column
+                $DataArr = $versions | ForEach-Object { [PSCustomObject]@{Version = $_} }
+            } else {
+                # Prepare data for Format-SpectreTable with all relevant columns
+                $DataArr = @()
+                foreach ($Property in $output) {
+                    $tempObj = [PSCustomObject]@{}
+                    foreach ($propName in $Property.PSObject.Properties.Name) {
+                        $tempObj | Add-Member -Name $propName -Type NoteProperty -Value $Property.$propName
+                    }
+                    $DataArr += $tempObj
                 }
-                $DataArr += $tempObj
             }
-            # Format-SpectreTable will take the data in $DataArr,
-            # format it into a square-bordered table, and color the
-            # border grey.
             Format-SpectreTable -Data $DataArr -Border $TableBorder -Color Grey35
-        
+        } elseif ($VersionOnly -and -not $Table) {
+            # Return just the list of versions
+            return $output
         } else {
-            # Return the final output.
+            # Return the output as is
             return $output
         }
     }
