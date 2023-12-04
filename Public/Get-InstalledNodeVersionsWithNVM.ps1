@@ -157,7 +157,9 @@ function Get-InstalledNodeVersionsWithNVM {
             $versions = $versions | Where-Object { $_ -in $FilterVersions }
         }
 
-        # Generate the output
+        # The below is used to process and output a list of versioned
+        # items based on certain parameters like branch, path, and
+        # whether you want only the version or version and path.
         $output = @()
         foreach ($version in $versions) {
             $branchValue = if ($version.StartsWith("0")) { "OLD" } else { "CURRENT" }
@@ -195,7 +197,10 @@ function Get-InstalledNodeVersionsWithNVM {
             }
         }
 
-        # Process the output based on the Table switch
+        # Below is responsible for arranging and formatting output
+        # data to be displayed as a visual table in the terminal. 
+        # This operates when the -Table flag to be set.
+        # PwshSpectreConsole is required for this to function. 
         if ($Table) {
             if ($VersionOnly) {
                 # Prepare data for Format-SpectreTable with only Version column
