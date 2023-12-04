@@ -1,208 +1,197 @@
-﻿function Get-InstalledNodeVersionsWithNVM {
-    [CmdletBinding(DefaultParameterSetName = 'All')]
-    param (
+﻿using namespace System.Management.Automation
 
-        [Parameter(Mandatory=$false, HelpMessage="Display only versions")]
-        [Parameter(Mandatory, ParameterSetName='VersionOnly', HelpMessage="Display only versions")]
-        [switch]
-        $VersionOnly,
-
-        [Parameter(Mandatory=$false, HelpMessage="Display only version and path")]
-        [Parameter(Mandatory, ParameterSetName='VersionAndPath', HelpMessage="Display only version and path")]
-        [switch]
-        $VersionAndPath,
-
-        [Parameter(Mandatory=$false, HelpMessage="Filter by branch")]
-        [ValidateSet('CURRENT','OLD','ALL', IgnoreCase = $true)]
-        [String]
-        $Branch = 'ALL',
-
-        [Parameter(Mandatory=$false, HelpMessage="Add a leading 'v' to the version strings.")]
-        [switch]
-        $InsertLeadingV,
-
-        [Parameter(Mandatory=$false, ParameterSetName='VersionOnly', HelpMessage="Add branch labels to results")]
-        [Parameter(Mandatory=$false, ParameterSetName='VersionAndPath', HelpMessage="Add branch labels to results")]
-        [switch]
-        $ShowBranch,
-
-        [Parameter(Mandatory=$false)]
-        [Switch]
-        $Table
-    )
-
-
-    ## Parameter Validation
-    if($PathOnly -and $VersionOnly){
-        Write-Error "PathOnly and VersionOnly cannot be used together."
-        return
-    }
-    if($GetLatestOnly -and $GetOldestOnly){
-        Write-Error "GetLatestOnly and GetOldestOnly cannot be used together."
-        return
-    }
-
-    # Version Branch Parser
-    $GetBranch = {
-        param (
-            [Parameter(Mandatory)] $Version
-        )
-        $Version = $Version.TrimStart('v')
-        if($Version -match '^0\.([\d\.]+)') {
-            'OLD'
-            return
-        }
-        'CURRENT'
-    }
-
-    # Version Parser
-    $GetVersions = {
-        param (
-            [Parameter(Mandatory)] $NVMListInput,
-            [Switch] $InsertV,
-            [Switch] $IncludeBranch,
-            [String] $FilterBranch
-        )
-
-        $NVMListInput = $NVMListInput -split "\r?\n"
-
-        for ($idx = 0; $idx -lt $NVMListInput.Count; $idx++) {
-            if([String]::IsNullOrEmpty($NVMListInput[$idx])){
-                continue
-            }
-
-            $nodeVersion = $NVMListInput[$idx] -replace '\* ', ''
-            $nodeVersion = $nodeVersion -replace '\(([\w\s\-]+)\)', ''
-            $nodeVersion = $nodeVersion.Trim()
-            if($InsertV){$nodeVersion = "v$nodeVersion"}
-            $branch = & $GetBranch -Version $nodeVersion
-            if(($FilterBranch -eq 'CURRENT') -and ($branch -eq 'OLD')){
-                continue
-            }
-            elseif(($FilterBranch -eq 'OLD') -and ($branch -eq 'CURRENT')){
-                continue
-            }
-            if($IncludeBranch){
-                [PSCustomObject]@{
-                    Version = $nodeVersion
-                    Branch = $branch
-                }
-            } else {
-                @($nodeVersion)
-            }
-        }
-    }
-
-    # Path and Version Parser
-    $GetPathsAndVersions = {
-        param (
-            [Parameter(Mandatory)] $NVMRootInput,
-            [Switch] $InsertV,
-            [Switch] $IncludeBranch,
-            [String] $FilterBranch
-        )
-
-        $NVMRoot = $NVMRootInput | ForEach-Object {
-            if([String]::IsNullOrEmpty($_)){ return }
-            $_ -replace 'Current Root: '
-        }
-
-        $nvmFoldersSplat = @{
-            LiteralPath = $NVMRoot
-            Filter = 'v*'
-            Directory = $true
-        }
-
-        $nodeDirs = Get-ChildItem @nvmFoldersSplat | Sort-Object -Descending
-        $nodeDirs | ForEach-Object {
-            $nodeVersion = (!$InsertV) ? $($_.Name.TrimStart('v')) : $($_.Name)
-            $nodePath = $_.FullName
-            $nodeBranch = & $GetBranch -Version $nodeVersion
-            if(($FilterBranch -eq 'CURRENT') -and ($nodeBranch -eq 'OLD')){
-                return
-            }
-            elseif(($FilterBranch -eq 'OLD') -and ($nodeBranch -eq 'CURRENT')){
-                return
-            }
-            if($IncludeBranch){
-                [PSCustomObject]@{
-                    Version = $nodeVersion
-                    Branch = $nodeBranch
-                    Path = $nodePath
-                }
-            }
-            else {
-                [PSCustomObject]@{
-                    Version = $nodeVersion
-                    Path = $nodePath
-                }
-            }
-        }
-    }
-
-    # End Parsing and Begin Logic
-
-    ## Check if NVM is available on the system PATH
-    try {
-        $NVMCMD = Get-Command nvm -CommandType Application
-    } catch {
-        $ErrorText = "NVM Node Version Manager isn't installed or available in your PATH environment variable."
-        $eRecord = [System.Management.Automation.ErrorRecord]::new(
-            [System.Management.Automation.CommandNotFoundException]::new($ErrorText),
-            'CommandNotFound',
-            'CommandNotFound',
-            $NVMCMD
-        )
-        Write-Error $eRecord
-        return 2
-    }
-
-    $NODE1 = & $NVMCMD list
-    $NODE2 = & $NVMCMD root
-
-    if((!$VersionAndPath) -and (!$VersionOnly)){
-        $outputSplat = @{
-            NVMRootInput   = $NODE2
-            InsertV        = $InsertLeadingV
-            IncludeBranch  = $true
-            FilterBranch   = $Branch
-        }
-        $Output = & $GetPathsAndVersions @outputSplat
-    }
-    elseif($VersionOnly){
-        $outputSplat = @{
-            NVMListInput   = $NODE1
-            InsertV        = $InsertLeadingV
-            IncludeBranch  = $ShowBranch
-            FilterBranch   = $Branch
-        }
-        $Output = & $GetVersions @outputSplat
-    }
-    elseif($VersionAndPath){
-        $outputSplat = @{
-            NVMRootInput   = $NODE2
-            InsertV        = $InsertLeadingV
-            IncludeBranch  = $ShowBranch
-            FilterBranch   = $Branch
-        }
-        $Output = & $GetPathsAndVersions @outputSplat
-    }
-
-    if($Table){
-        
-        $DataArr = @()
-        foreach ($Property in $Output) {
-            $O = [pscustomobject]@{}
-            if($Property.Version){ $O | Add-Member -Name 'Version' -Type NoteProperty -Value $Property.Version }
-            if($Property.Branch){ $O | Add-Member -Name 'Branch' -Type NoteProperty -Value $Property.Branch }
-            if($Property.Path){ $O | Add-Member -Name 'Path' -Type NoteProperty -Value $Property.Path }
-            $DataArr += $O
-        }
-        Format-SpectreTable -Data $DataArr -Border Square -Color Grey27
-
-    }else{
-        $Output
+class NodeVersions : IValidateSetValuesGenerator {
+    [string[]] GetValidValues() {
+        $v = Get-InstalledNodeVersionsCompleter
+        return $v
     }
 }
 
-#Get-InstalledNodeVersionsWithNVM -Table
+function Get-InstalledNodeVersionsWithNVM {
+
+    <#
+    .SYNOPSIS
+    This function returns the installed Node.js versions with Node Version Manager (NVM).
+    
+    .PARAMETER VersionOnly
+    Optional switch to display only the version numbers of installed Node.js versions. If neither VersionOnly nor VersionAndPath are specified, default output will be used.
+    
+    .PARAMETER VersionAndPath
+    Optional switch to display both the version numbers and installation paths of the installed Node.js versions.
+    
+    .PARAMETER FilterVersions
+    Optional parameter specifying an array of specific versions to return, validated against installed Node.js versions.
+    
+    .PARAMETER Branch
+    A string parameter to filter installations by branch. The accepted values are "CURRENT", "OLD", and "ALL". The default value is "ALL".
+    
+    .PARAMETER ShowBranch
+    Optional switch that adds the branch column to the results if desired.
+    
+    .PARAMETER Table
+    A switch parameter. When specified, the results will be formatted as a table for better readability.
+    
+    .PARAMETER TableBorder
+    This parameter accepts a string representation of the desired style for the table border when displaying results in a table format.
+    
+    .EXAMPLE
+    Get-InstalledNodeVersionsWithNVM -VersionAndPath -FilterVersions '12.18.3', '14.5.0' -Table
+    
+    This example retrieves the version and install path information for Node.js versions 12.18.3 and 14.5.0, and displays the results in a table format.
+    #>
+
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$false, HelpMessage="Display only versions.")]
+        [switch] $VersionOnly,
+
+        [Parameter(Mandatory=$false, HelpMessage="Display only versions and install paths.")]
+        [switch] $VersionAndPath,
+
+        [Parameter(HelpMessage="Return only specific versions.")]
+        [string[]]
+        [ValidateSet([NodeVersions])]
+        $FilterVersions,
+
+        [Parameter(HelpMessage="Display installations filtered by branch.")]
+        [ValidateSet("CURRENT", "OLD", "ALL", IgnoreCase=$true)]
+        [string] $Branch = "ALL",
+
+        [Parameter(HelpMessage="Add the branch column to the results if desired.")]
+        [switch] $ShowBranch,
+
+        [Parameter(HelpMessage="Prettify the results with a table.")]
+        [switch] $Table,
+
+        [Parameter(HelpMessage="Change the style of the table border.")]
+        [ValidateSpectreTableBorder()]
+        [ArgumentCompletionsSpectreTableBorder()]
+        [String] $TableBorder = "Square"
+        
+    )
+
+    process {
+        # Ensure VersionOnly and VersionAndPath are not used together
+        if ($VersionOnly -and $VersionAndPath) {
+            throw "VersionOnly and VersionAndPath cannot be used together."
+        }
+        
+        # Retrieves the command for executing NVM from the system.
+        $NVMCmd = Get-Command nvm.exe
+        $NVMRoot = (& $NVMCmd root)[1] -replace 'Current Root: '
+
+        # Retrieve all child directories starting with 'v' from the
+        # NVM installation root directory, trim off the 'v' at the
+        # start, and store the array of full directory paths in the
+        # NodeDirsFull variable.
+        $NodeDirsFull = ((Get-ChildItem -Path $NVMRoot -Filter 'v*' -Directory).FullName).TrimStart('v')
+        
+        # Gets the list of installed Node.js versions using the "list"
+        # command in NVM, splits the result by new lines, removes any
+        # empty or null values, and stores the clean list in
+        # NodeVersions.
+        $NodeVersions = (& $NVMCmd list) | % { $_ -split '\r?\n'} | % { if(![String]::IsNullOrEmpty($_)){ $_ } }
+        
+        # cleans up the NodeVersions array by removing extra
+        # characters such as '*', '(', ')', any text within
+        # parentheses, and leading/trailing spaces.
+        $NodeVersions = (($NodeVersions -replace '\* ', '') -replace '\(([\w\s\-]+)\)', '').Trim()
+
+        # Full path directories corresponding to different Node.js versions installed on your system.
+        $directoryString = $NodeDirsFull
+        # A collection of strings representing different Node.js versions installed on your system via NVM.
+        $versionString   = $NodeVersions
+
+        # Split the strings into arrays
+        $versions = $versionString -split "`n"
+        $directories = $directoryString -split "`n"
+
+        # Create a hashtable to associate versions with directories
+        $versionDirectoryMap = @{}
+        foreach ($dir in $directories) {
+            if ($dir -match "v(\d+\.\d+\.\d+)$") {
+                $versionDirectoryMap[$Matches[1]] = $dir
+            }
+        }
+
+        # Filter the versions if FilterVersions is specified
+        if ($FilterVersions) {
+            $versions = $versions | Where-Object { $_ -in $FilterVersions }
+        }
+
+        # Defines an array ($output) to store the desired output of
+        # installed Node.js versions, their branches (either "OLD" or
+        # "CURRENT"), and paths.
+        $output = @()
+        foreach ($version in $versions) {
+            $branchValue = if ($version.StartsWith("0")) { "OLD" } else { "CURRENT" }
+           
+            if ($Branch -eq "ALL" -or $Branch -eq $branchValue) {
+                
+                # Retrieves the path associated with the current
+                # version from the $versionDirectoryMap hashtable
+                # and assigns it to the $path variable.
+                $path = $versionDirectoryMap[$version]
+
+                $obj = [PSCustomObject]@{
+                    Version = $version
+                    Branch = $branchValue
+                    Path = $path
+                }
+
+                # Adjust the object based on switches
+                if ($VersionOnly) {
+                    if ($ShowBranch) {
+                        $output += [PSCustomObject]@{
+                            Version = $version
+                            Branch = $branchValue
+                        }
+                    } else {
+                        $output += [PSCustomObject]@{
+                            Version = $version
+                        }
+                    }
+                } elseif ($VersionAndPath) {
+                    if ($ShowBranch) {
+                        $output += [PSCustomObject]@{
+                            Version = $version
+                            Branch = $branchValue
+                            Path = $path
+                        }
+                    } else {
+                        $output += [PSCustomObject]@{
+                            Version = $version
+                            Path = $path
+                        }
+                    }
+                } else {
+                    $output += $obj
+                }
+            }
+        }
+
+        # Handles the visualization of output when the $Table switch is used.
+        if ($Table) {
+            # Prepare data for Format-SpectreTable
+            $DataArr = @()
+            foreach ($Property in $output) {
+                $tempObj = [PSCustomObject]@{}
+                foreach ($propName in $Property.PSObject.Properties.Name) {
+                    $tempObj | Add-Member -Name $propName -Type NoteProperty -Value $Property.$propName
+                }
+                $DataArr += $tempObj
+            }
+            # Format-SpectreTable will take the data in $DataArr,
+            # format it into a square-bordered table, and color the
+            # border grey.
+            Format-SpectreTable -Data $DataArr -Border $TableBorder -Color Grey35
+        
+        } else {
+            # Return the final output.
+            return $output
+        }
+    }
+}
+
+
+

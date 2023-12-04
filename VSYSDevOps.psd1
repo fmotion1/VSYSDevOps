@@ -41,7 +41,8 @@
                         'Confirm-PythonPyPiPackageExists',
                         'Invoke-InteractiveNewNodeProject',
                         'Save-LicenseToFolder',
-                        'Get-LicenseTemplates'
+                        'Get-LicenseTemplates',
+                        'Get-InstalledNodeVersionsCompleter'
                         
 
     PrivateData = @{

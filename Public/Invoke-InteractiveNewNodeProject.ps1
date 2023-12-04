@@ -2,7 +2,7 @@
 
 class NodeVersions : IValidateSetValuesGenerator {
     [string[]] GetValidValues() {
-        $v = Get-InstalledNodeVersionsWithNVM -VersionOnly
+        $v = Get-InstalledNodeVersionsCompleter
         return $v
     }
 }
