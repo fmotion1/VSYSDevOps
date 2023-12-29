@@ -23,7 +23,7 @@
     # PowerShellHostName = ''
 
     RequiredModules = @('PwshSpectreConsole')
-    RequiredAssemblies = @( "$PSScriptRoot\Lib\PythonVenvDetails.dll" )
+    RequiredAssemblies = "$PSScriptRoot\Lib\PythonVenvDetails.dll"
 
     FunctionsToExport = 'Get-NodeGlobalPackages',
                         'Get-InstalledNodeVersionsWithNVM',
@@ -41,7 +41,8 @@
                         'Confirm-PythonPyPiPackageExists',
                         'Save-LicenseToFolder',
                         'Get-LicenseTemplates',
-                        'Get-InstalledNodeVersionsCompleter'
+                        'Get-InstalledNodeVersionsCompleter',
+                        'Get-ActiveNodeVersionWithNVM'
                         
 
     PrivateData = @{

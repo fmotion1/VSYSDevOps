@@ -1,11 +1,18 @@
-﻿using namespace System.Management.Automation
-
+﻿
+using namespace System.Management.Automation
+class SpectreConsoleTableBorder : IValidateSetValuesGenerator {
+    [String[]] GetValidValues() {
+        $lookup = [Spectre.Console.TableBorder] | Get-Member -Static -MemberType Properties | Select-Object -ExpandProperty Name
+        return $lookup
+    }
+}
 class NodeVersions : IValidateSetValuesGenerator {
     [string[]] GetValidValues() {
         $v = Get-InstalledNodeVersionsCompleter
         return $v
     }
 }
+
 <#
     .SYNOPSIS
     This function returns the installed Node.js versions with Node Version Manager (NVM).
@@ -61,8 +68,8 @@ function Get-InstalledNodeVersionsWithNVM {
         [switch] $Table,
 
         [Parameter(HelpMessage="Change the style of the table border.")]
-        [ValidateSpectreTableBorder()]
-        [ArgumentCompletionsSpectreTableBorder()]
+        [ValidateSet([SpectreConsoleTableBorder])]
+        #[ArgumentCompletionsSpectreTableBorder()]
         [String] $TableBorder = "Square"
 
     )
@@ -209,7 +216,11 @@ function Get-InstalledNodeVersionsWithNVM {
                 foreach ($Property in $output) {
                     $tempObj = [PSCustomObject]@{}
                     foreach ($propName in $Property.PSObject.Properties.Name) {
-                        $tempObj | Add-Member -Name $propName -Type NoteProperty -Value $Property.$propName
+                        if($propName -eq 'Version'){
+                            $tempObj | Add-Member -Name $propName -Type NoteProperty -Value "[#8BA1FF]$($Property.$propName)[/]"
+                        }else{
+                            $tempObj | Add-Member -Name $propName -Type NoteProperty -Value $Property.$propName
+                        }
                     }
                     $DataArr += $tempObj
                 }

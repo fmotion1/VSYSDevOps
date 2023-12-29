@@ -46,10 +46,10 @@
 
         $ProjectName = $ProjectName -replace '\s', ''
 
-        $CSC = Get-Content "$PSScriptRoot\..\Templates\CSharp\Libray\Class.cstemplate" -Raw
-        $CSP = Get-Content "$PSScriptRoot\..\Templates\CSharp\Libray\Class.csproj" -Raw
-        $DBG = Get-Content "$PSScriptRoot\..\Templates\CSharp\Libray\build_debug.ps1" -Raw
-        $RLS = Get-Content "$PSScriptRoot\..\Templates\CSharp\Libray\build_release.ps1" -Raw
+        $CSC = Get-Content "$PSScriptRoot\..\Templates\CSharp\Library\Class.cstemplate" -Raw
+        $CSP = Get-Content "$PSScriptRoot\..\Templates\CSharp\Library\Class.csproj" -Raw
+        $DBG = Get-Content "$PSScriptRoot\..\Templates\CSharp\Library\build_debug.ps1" -Raw
+        $RLS = Get-Content "$PSScriptRoot\..\Templates\CSharp\Library\build_release.ps1" -Raw
 
         $CSC = $CSC -replace '{ProjectName}', $ProjectName
         $CSC = $CSC -replace '{Namespace}', $Namespace
