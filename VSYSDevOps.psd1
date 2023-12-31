@@ -42,7 +42,8 @@
                         'Save-LicenseToFolder',
                         'Get-LicenseTemplates',
                         'Get-InstalledNodeVersionsCompleter',
-                        'Get-ActiveNodeVersionWithNVM'
+                        'Get-ActiveNodeVersionWithNVM',
+                        'Get-LinuxWSLDistributionInfo'
                         
 
     PrivateData = @{
