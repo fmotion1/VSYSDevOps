@@ -110,5 +110,3 @@ function Get-LinuxWSLDistributionInfo {
         return ($wslObject.PSObject.Properties | ForEach-Object { "{0}: {1}" -f $_.Name, $_.Value })
     }
 }
-
-Get-LinuxWSLDistributionInfo FullNoURLs

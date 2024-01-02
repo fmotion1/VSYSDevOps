@@ -23,7 +23,7 @@
     # PowerShellHostName = ''
 
     RequiredModules = @('PwshSpectreConsole')
-    RequiredAssemblies = "$PSScriptRoot\Lib\PythonVenvDetails.dll"
+    RequiredAssemblies = "$PSScriptRoot\Lib\PythonVENVObject.dll"
 
     FunctionsToExport = 'Get-NodeGlobalPackages',
                         'Get-InstalledNodeVersionsWithNVM',

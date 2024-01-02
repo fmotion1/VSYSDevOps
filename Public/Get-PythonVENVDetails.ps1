@@ -1,6 +1,6 @@
 ﻿function Get-PythonVENVDetails {
     [CmdletBinding()]
-    [OutputType([VSYSStructs.PythonVenvDetails])]
+    [OutputType([VSYSDevOps.Python.PythonVENVObject])]
     param (
         [Parameter(Mandatory)]
         [Alias("f")]
@@ -49,7 +49,7 @@
             $SitePKG = [System.IO.Path]::Combine($Folder, 'Lib', 'site-packages')
             $PYCFG = $pyvenvcfg
 
-            [VSYSStructs.PythonVenvDetails]@{
+            [VSYSDevOps.Python.PythonVENVObject]@{
                 IsVENV                = $DirectoryIsVENV
                 VENVPath              = $VENVPath
                 PythonVersion         = $VENVPythonVersion
@@ -67,5 +67,4 @@
 
         }
     }
-
 }
