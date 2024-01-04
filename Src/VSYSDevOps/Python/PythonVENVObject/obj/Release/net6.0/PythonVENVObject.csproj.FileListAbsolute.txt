@@ -11,3 +11,16 @@ D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\PythonVENVObject\obj\Rel
 D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\PythonVENVObject\obj\Release\net6.0\refint\PythonVENVObject.dll
 D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.pdb
 D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\PythonVENVObject\obj\Release\net6.0\ref\PythonVENVObject.dll
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\bin\Release\net6.0\PythonVENVObject.deps.json
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\bin\Release\net6.0\PythonVENVObject.dll
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\bin\Release\net6.0\PythonVENVObject.pdb
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.csproj.AssemblyReference.cache
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.AssemblyInfoInputs.cache
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.AssemblyInfo.cs
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.csproj.CoreCompileInputs.cache
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.sourcelink.json
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.dll
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\refint\PythonVENVObject.dll
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\PythonVENVObject.pdb
+D:\Dev\Powershell\VSYSModules\VSYSDevOps\Src\VSYSDevOps\Python\PythonVENVObject\obj\Release\net6.0\ref\PythonVENVObject.dll

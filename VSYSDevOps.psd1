@@ -43,7 +43,10 @@
                         'Get-LicenseTemplates',
                         'Get-InstalledNodeVersionsCompleter',
                         'Get-ActiveNodeVersionWithNVM',
-                        'Get-LinuxWSLDistributionInfo'
+                        'Get-LinuxWSLDistributionInfo',
+                        'Confirm-FolderIsPythonVENV',
+                        'Get-LatestNodeWithNVM',
+                        'Update-EnvironmentVariables'
                         
 
     PrivateData = @{

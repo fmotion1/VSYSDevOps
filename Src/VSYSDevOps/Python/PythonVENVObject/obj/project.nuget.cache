@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oBKFlr4TbIXZWgIzXAkME5GPkOsfojzcCFSRGMM600eClOr4deVB6SLLr71il0O/wsprphNTNiF8Egzo4Q2GSg==",
+  "dgSpecHash": "oJ2Tm4cigx0rQjM9+RGTxe7dBplMrRUx5QD8iqN9JYpMa8VNjTYeEEcLZ/s7zccO4gMBi5QfL0uSuBzjg3jxpg==",
   "success": true,
-  "projectFilePath": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\VSYSDevOps\\PythonVENVObject\\PythonVENVObject.csproj",
+  "projectFilePath": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\src\\VSYSDevOps\\Python\\PythonVENVObject\\PythonVENVObject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\futur\\.nuget\\packages\\powershellstandard.library\\5.1.1\\powershellstandard.library.5.1.1.nupkg.sha512"
   ],

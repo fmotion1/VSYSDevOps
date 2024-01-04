@@ -41,11 +41,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\VSYSDevOps\\PythonVENVObject\\PythonVENVObject.csproj",
+      "projectUniqueName": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\VSYSDevOps\\Python\\PythonVENVObject\\PythonVENVObject.csproj",
       "projectName": "PythonVENVObject",
-      "projectPath": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\VSYSDevOps\\PythonVENVObject\\PythonVENVObject.csproj",
+      "projectPath": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\VSYSDevOps\\Python\\PythonVENVObject\\PythonVENVObject.csproj",
       "packagesPath": "C:\\Users\\futur\\.nuget\\packages\\",
-      "outputPath": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\VSYSDevOps\\PythonVENVObject\\obj\\",
+      "outputPath": "D:\\Dev\\Powershell\\VSYSModules\\VSYSDevOps\\Src\\VSYSDevOps\\Python\\PythonVENVObject\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PythonVENVObject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99b2647dfbc5ff0f0e0cb7a862b2c7270ddbe3a3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5545c2257052b3e4529c72a59bb970501365593f")]
 [assembly: System.Reflection.AssemblyProductAttribute("PythonVENVObject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PythonVENVObject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
