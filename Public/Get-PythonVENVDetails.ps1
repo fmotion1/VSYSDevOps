@@ -131,4 +131,4 @@ function Get-PythonVENVDetails {
     }
 }
 
-Get-PythonVENVDetails -Folder "D:\Dev\Python\00 VENV\FontTools"
+# Get-PythonVENVDetails -Folder "D:\Dev\Python\00 VENV\FontTools"
