@@ -16,6 +16,8 @@
     It uses the Get-InstalledNodeVersionsWithNVM function, which should be defined in the same scope.
 #>
 function Get-LatestNodeWithNVM {
+    [CmdletBinding()]
     param ()
-    (Get-InstalledNodeVersionsWithNVM)[0].Version
+
+    return (Get-InstalledNodeVersionsWithNVM)[0].Version
 }
