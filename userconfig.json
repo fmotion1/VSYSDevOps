@@ -1,0 +1,10 @@
+{
+    "LicenseOwner": "Futuremotion",
+    "LicenseYear": "2024",
+    "LicenseEmail": "admin@fmotiondev.com",
+    "UserName": "Futuremotion",
+    "UserHomepage": "http://www.github.com/fmotion1",
+    "DefaultLicense": "MIT License",
+    "DefaultGitignoreTemplate": "general",
+    "DefaultGitBranch": "main"
+}
