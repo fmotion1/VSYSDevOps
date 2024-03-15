@@ -1,0 +1,17 @@
+{
+    "name": "MIT License",
+    "variables": [
+        {
+            "name": "Copyright Year",
+            "userConfig": "LicenseYear",
+            "variable": "{%COPYRIGHT_YEAR%}",
+            "description": "The effective copyright year."
+        },
+        {
+            "name": "Copyright Owner",
+            "userConfig": "LicenseOwner",
+            "variable": "{%COPYRIGHT_OWNER%}",
+            "description": "The copyright owner."
+        }
+    ]
+}

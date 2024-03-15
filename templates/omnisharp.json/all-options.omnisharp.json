@@ -1,0 +1,111 @@
+{
+    // https://github.com/OmniSharp/omnisharp-roslyn/wiki/Configuration-Options
+    // https://www.strathweb.com/2020/02/hidden-features-of-omnisharp-and-c-extension-for-vs-code/
+    // https://www.strathweb.com/2017/01/c-code-formatting-settings-in-vs-code-and-omnisharp/
+    // https://storck.io/posts/vscode-csharp-change-indentation/
+
+    "RoslynExtensionsOptions": {
+        "enableAnalyzersSupport": true
+    },
+    "msbuild": {
+        "enabled": true,
+        "ToolsVersion": null,
+        "VisualStudioVersion": null,
+        "Configuration": null,
+        "Platform": null,
+        "EnablePackageAutoRestore": false,
+        "MSBuildExtensionsPath": null,
+        "TargetFrameworkRootPath": null,
+        "MSBuildSDKsPath": null,
+        "RoslynTargetsPath": null,
+        "CscToolPath": null,
+        "CscToolExe": null,
+        "loadProjectsOnDemand": false,
+        "GenerateBinaryLogs": false
+    },
+    "script": {
+        "enabled": true,
+        "defaultTargetFramework": "net461",
+        "enableScriptNuGetReferences": false
+    },
+    "cake": {
+        "enabled": true,
+        "bakeryPath ": null
+    },
+    "sdk": {
+        "path": "C:\\Program Files\\dotnet\\sdk\\8.0.200",
+        "version": "8.0.200"
+    },
+    "FormattingOptions": {
+        "enableEditorConfigSupport": true,
+        "OrganizeImports": true,
+        "UseTabs": false,
+        "TabSize": 4,
+        "IndentationSize": 4,
+        "NewLine": "\r\n",
+        "SpacingAfterMethodDeclarationName": false,
+        "SpaceWithinMethodDeclarationParenthesis": false,
+        "SpaceBetweenEmptyMethodDeclarationParentheses": false,
+        "SpaceAfterMethodCallName": false,
+        "SpaceWithinMethodCallParentheses": false,
+        "SpaceBetweenEmptyMethodCallParentheses": false,
+        "SpaceAfterControlFlowStatementKeyword": true,
+        "SpaceWithinExpressionParentheses": false,
+        "SpaceWithinCastParentheses": false,
+        "SpaceWithinOtherParentheses": false,
+        "SpaceAfterCast": false,
+        "SpacesIgnoreAroundVariableDeclaration": false,
+        "SpaceBeforeOpenSquareBracket": false,
+        "SpaceBetweenEmptySquareBrackets": false,
+        "SpaceWithinSquareBrackets": false,
+        "SpaceAfterColonInBaseTypeDeclaration": true,
+        "SpaceAfterComma": true,
+        "SpaceAfterDot": false,
+        "SpaceAfterSemicolonsInForStatement": true,
+        "SpaceBeforeColonInBaseTypeDeclaration": true,
+        "SpaceBeforeComma": false,
+        "SpaceBeforeDot": false,
+        "SpaceBeforeSemicolonsInForStatement": false,
+        "SpacingAroundBinaryOperator": "single",
+        "IndentBraces": false,
+        "IndentBlock": true,
+        "IndentSwitchSection": true,
+        "IndentSwitchCaseSection": true,
+        "LabelPositioning": "oneLess",
+        "WrappingPreserveSingleLine": true,
+        "WrappingKeepStatementsOnSingleLine": true,
+        "NewLinesForBracesInTypes": true,
+        "NewLinesForBracesInMethods": true,
+        "NewLinesForBracesInProperties": true,
+        "NewLinesForBracesInAccessors": true,
+        "NewLinesForBracesInAnonymousMethods": true,
+        "NewLinesForBracesInControlBlocks": true,
+        "NewLinesForBracesInAnonymousTypes": true,
+        "NewLinesForBracesInObjectCollectionArrayInitializers": true,
+        "NewLinesForBracesInLambdaExpressionBody": true,
+        "NewLineForElse": true,
+        "NewLineForCatch": true,
+        "NewLineForFinally": true,
+        "NewLineForMembersInObjectInit": true,
+        "NewLineForMembersInAnonymousTypes": true,
+        "NewLineForClausesInQuery": true
+    },
+    "ImplementTypeOptions": {
+        "PropertyGenerationBehavior": "PreferAutoProperties",
+        "InsertionBehavior": "AtTheEnd"
+    },
+    "RenameOptions": {
+        "RenameInComments": true,
+        "RenameOverloads": true,
+        "RenameInStrings": true
+    },
+    "fileOptions": {
+        "systemExcludeSearchPatterns": [
+            "**/node_modules/**/*",
+            "**/bin/**/*",
+            "**/obj/**/*",
+            "**/node_modules/**/*"
+        ],
+        "excludeSearchPatterns": []
+    }
+}

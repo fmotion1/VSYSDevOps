@@ -1,0 +1,20 @@
+using System;
+using System.Text.RegularExpressions;
+
+namespace {Namespace}
+{
+    public sealed class {ProjectName}
+    {
+        public string Path { get; set; }
+
+        public {ProjectName}(int input)
+        {
+            
+        }
+
+        public override string ToString()
+        {
+            return "Return String";
+        }
+    }
+}

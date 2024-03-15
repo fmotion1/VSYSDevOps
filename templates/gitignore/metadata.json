@@ -1,0 +1,24 @@
+{
+    "templates": [
+        {
+            "name": "Empty",
+            "file": "empty.gitignore",
+            "description": "An empty gitignore file."
+        },
+        {
+            "name": "General",
+            "file": "general.gitignore",
+            "description": "A general purpose gitignore template."
+        },
+        {
+            "name": "Minimal",
+            "file": "minimal.gitignore",
+            "description": "A minimal gitignore template."
+        },
+        {
+            "name": "Exclude All",
+            "file": "exclude-all.gitignore",
+            "description": "A gitignore template that excludes everything but specific files."
+        }
+    ]
+}

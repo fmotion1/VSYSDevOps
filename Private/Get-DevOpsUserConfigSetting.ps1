@@ -1,29 +1,16 @@
-﻿using namespace System.Management.Automation
-
-class UserConfigKeys : IValidateSetValuesGenerator {
-    [string[]] GetValidValues() {
-        $Keys = 'LicenseOwner',
-                'LicenseYear',
-                'LicenseEmail',
-                'UserName',
-                'UserHomepage',
-                'DefaultLicense',
-                'DefaultGitignoreTemplate',
-                'DefaultGitBranch'
-        return $Keys
-    }
-}
-function Get-DevOpsUserConfigSetting {
+﻿function Get-DevOpsUserConfigSetting {
 
     [CmdletBinding()]
     [OutputType([string])]
+
     param (
-        [Parameter(Mandatory,Position=0)]
-        [ValidateSet([UserConfigKeys])]
+        [Parameter(Mandatory,Position=0,ValueFromPipeline)]
         [string] $Key
     )
 
     process {
+
+        $ErrorView
 
         $ErrorActionPreference = 'Stop'
         $ModuleBase = $MyInvocation.MyCommand.Module.ModuleBase
@@ -31,8 +18,7 @@ function Get-DevOpsUserConfigSetting {
 
         if (Test-Path -LiteralPath $UserConfig -PathType Leaf) {
             try {
-                $ConfigJSON = Get-Content -Path $UserConfig -Raw
-                $ConfigObject = $ConfigJSON | ConvertFrom-Json
+                $ConfigObject = Get-Content -Path $UserConfig -Raw | ConvertFrom-Json
                 $ConfigKey = $ConfigObject.$Key
                 if([String]::IsNullOrEmpty($ConfigKey)){
                     Write-Error "Error getting user-configuration key ($Key). It's null or empty."
@@ -54,3 +40,6 @@ function Get-DevOpsUserConfigSetting {
         }
     }
 }
+
+
+

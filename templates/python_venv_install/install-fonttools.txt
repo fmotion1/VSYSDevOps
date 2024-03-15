@@ -1,0 +1,2 @@
+pip install foundrytools-cli
+pip install python-fontbro

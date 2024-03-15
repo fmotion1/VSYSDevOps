@@ -1,0 +1,7 @@
+# Ignores all root level files and directories except those listed explicitly.
+/*
+
+# Track the following files
+!userstyle.css
+!userchrome.css
+!userstyle-syntax.css

@@ -1,0 +1,23 @@
+{
+    "name": "SIL Open Font License 1.1",
+    "variables": [
+        {
+            "name": "Copyright Year",
+            "userConfig": "LicenseYear",
+            "variable": "{%COPYRIGHT_YEAR%}",
+            "description": "The effective copyright year."
+        },
+        {
+            "name": "Copyright Owner",
+            "userConfig": "LicenseOwner",
+            "variable": "{%COPYRIGHT_OWNER%}",
+            "description": "The copyright owner."
+        },
+        {
+            "name": "Copyright Owner Email",
+            "userConfig": "LicenseEmail",
+            "variable": "{%COPYRIGHT_EMAIL%}",
+            "description": "The email address of the copyright owner."
+        }
+    ]
+}

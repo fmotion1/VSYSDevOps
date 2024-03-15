@@ -1,0 +1,17 @@
+{
+    "name": "Apache License v2.0",
+    "variables": [
+        {
+            "name": "Copyright Owner",
+            "userConfig": "LicenseOwner",
+            "variable": "{%COPYRIGHT_OWNER%}",
+            "description": "The copyright owner."
+        },
+        {
+            "name": "Copyright Year",
+            "userConfig": "LicenseYear",
+            "variable": "{%COPYRIGHT_YEAR%}",
+            "description": "The effective copyright year."
+        }
+    ]
+}

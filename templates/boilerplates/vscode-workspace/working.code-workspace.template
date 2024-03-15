@@ -1,0 +1,11 @@
+{
+    "folders": [
+        {
+            "path": {%%WorkspaceRoot%%}
+        }
+    ],
+
+    "settings": {
+        "files.defaultLanguage": {%%DefaultLanguage%%},
+    }
+}
