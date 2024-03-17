@@ -1,0 +1,156 @@
+{
+    "licenses": [
+        {
+            "name": "Apache License v2.0",
+            "path": "apache-2/LICENSE",
+            "variables": [
+                {
+                    "name": "Copyright Owner",
+                    "userConfig": "LicenseOwner",
+                    "variable": "{%COPYRIGHT_OWNER%}",
+                    "description": "The copyright owner."
+                },
+                {
+                    "name": "Copyright Year",
+                    "userConfig": "LicenseYear",
+                    "variable": "{%COPYRIGHT_YEAR%}",
+                    "description": "The effective copyright year."
+                }
+            ]
+        },
+        {
+            "name": "BSD 2-Clause License",
+            "path": "bsd2-clause/LICENSE",
+            "variables": [
+                {
+                    "name": "Copyright Year",
+                    "userConfig": "LicenseYear",
+                    "variable": "{%COPYRIGHT_YEAR%}",
+                    "description": "The effective copyright year."
+                },
+                {
+                    "name": "Copyright Owner",
+                    "userConfig": "LicenseOwner",
+                    "variable": "{%COPYRIGHT_OWNER%}",
+                    "description": "The copyright owner."
+                }
+            ]
+        },
+        {
+            "name": "BSD 3-Clause License",
+            "path": "bsd3-clause/LICENSE",
+            "variables": [
+                {
+                    "name": "Copyright Year",
+                    "userConfig": "LicenseYear",
+                    "variable": "{%COPYRIGHT_YEAR%}",
+                    "description": "The effective copyright year."
+                },
+                {
+                    "name": "Copyright Owner",
+                    "userConfig": "LicenseOwner",
+                    "variable": "{%COPYRIGHT_OWNER%}",
+                    "description": "The copyright owner."
+                }
+            ]
+        },
+        {
+            "name": "GNU General Public License v2",
+            "path": "gnu-gpl-2/LICENSE",
+            "variables": []
+        },
+        {
+            "name": "GNU General Public License v3",
+            "path": "gnu-gpl-3/LICENSE",
+            "variables": []
+        },
+        {
+            "name": "ISC License",
+            "path": "isc/LICENSE",
+            "variables": [
+                {
+                    "name": "Copyright Year",
+                    "userConfig": "LicenseYear",
+                    "variable": "{%COPYRIGHT_YEAR%}",
+                    "description": "The effective copyright year."
+                },
+                {
+                    "name": "Copyright Owner",
+                    "userConfig": "LicenseOwner",
+                    "variable": "{%COPYRIGHT_OWNER%}",
+                    "description": "The copyright owner."
+                }
+            ]
+        },
+        {
+            "name": "MIT License",
+            "path": "mit/LICENSE",
+            "variables": [
+                {
+                    "name": "Copyright Year",
+                    "userConfig": "LicenseYear",
+                    "variable": "{%COPYRIGHT_YEAR%}",
+                    "description": "The effective copyright year."
+                },
+                {
+                    "name": "Copyright Owner",
+                    "userConfig": "LicenseOwner",
+                    "variable": "{%COPYRIGHT_OWNER%}",
+                    "description": "The copyright owner."
+                }
+            ]
+        },
+        {
+            "name": "MIT No Attribution License",
+            "path": "mit-no-attribution/LICENSE",
+            "variables": [
+                {
+                    "name": "Copyright Year",
+                    "userConfig": "LicenseYear",
+                    "variable": "{%COPYRIGHT_YEAR%}",
+                    "description": "The effective copyright year."
+                },
+                {
+                    "name": "Copyright Owner",
+                    "userConfig": "LicenseOwner",
+                    "variable": "{%COPYRIGHT_OWNER%}",
+                    "description": "The copyright owner."
+                }
+            ]
+        },
+        {
+            "name": "Mozilla Public License v2.0",
+            "path": "mozilla-public-2/LICENSE",
+            "variables": []
+        },
+        {
+            "name": "SIL Open Font License 1.1",
+            "path": "sil-open-font-1.1/LICENSE",
+            "variables": [
+                {
+                    "name": "Copyright Year",
+                    "userConfig": "LicenseYear",
+                    "variable": "{%COPYRIGHT_YEAR%}",
+                    "description": "The effective copyright year."
+                },
+                {
+                    "name": "Copyright Owner",
+                    "userConfig": "LicenseOwner",
+                    "variable": "{%COPYRIGHT_OWNER%}",
+                    "description": "The copyright owner."
+                },
+                {
+                    "name": "Copyright Owner Email",
+                    "userConfig": "LicenseEmail",
+                    "variable": "{%COPYRIGHT_EMAIL%}",
+                    "description": "The email address of the copyright owner."
+                }
+            ]
+        },
+        {
+            "name": "The Unilicense",
+            "path": "the-unilicense/LICENSE",
+            "variables": []
+        }
+    ]
+}

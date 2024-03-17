@@ -2,7 +2,7 @@
 
 class PythonVersions : IValidateSetValuesGenerator {
     [string[]] GetValidValues() {
-        $v = Get-PythonVersions -VersionOnly
+        $v = Get-PythonInstalledVersions -VersionOnly
         return $v
     }
 }

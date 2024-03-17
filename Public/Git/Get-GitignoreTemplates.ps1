@@ -1,6 +1,6 @@
 ﻿function Get-GitignoreTemplates {
 
-    $Templates = Get-DevOpsConfigSetting -Key 'TemplatesFolder'
+    $Templates = Get-DevOpsConfigSetting -Key 'TemplatesPath'
     $GitignoreTemplates = Join-Path $Templates -ChildPath '\gitignore\'
     $GitignoreMetadata = Join-Path $GitignoreTemplates -ChildPath 'metadata.json'
     $MetadataJSON = Get-Content -Path $GitignoreMetadata -Raw

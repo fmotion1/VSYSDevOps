@@ -4,7 +4,6 @@ function Get-PythonVENVDetails {
     [OutputType([VSYSDevOps.Python.PythonVENVObject])]
     param (
         [Parameter(Mandatory)]
-        [Alias("f")]
         [String] $Folder
 
     )
@@ -12,8 +11,11 @@ function Get-PythonVENVDetails {
     process {
 
         if(-not(Test-Path -LiteralPath $Folder -PathType Container)){
-            Write-Error "Folder doesn't exist. Check your spelling and try again."
-            return
+            throw "Folder doesn't exist. Check your spelling and try again."
+        }
+
+        if(-not(Confirm-PythonFolderIsVENV -Folder $Folder)){
+            throw "Passed -Folder ($Folder) is not a Python VENV"
         }
 
         $VENVOriginalPython = "Not Found"
@@ -152,5 +154,3 @@ function Get-PythonVENVDetails {
         }
     }
 }
-
-Get-PythonVENVDetails -Folder "D:\Dev\Python\00 VENV\FontTools"

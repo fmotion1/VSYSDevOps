@@ -1,18 +1,23 @@
 ﻿function Save-WindowsOpenDirectories {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$false,Position=0)]
-        [String]$DestinationFile
+        [Parameter(Mandatory=$false)]
+        [String] $DestinationFolder,
+
+        [Parameter(Mandatory=$false)]
+        [String] $DestinationFilename
     )
 
-    if([String]::IsNullOrEmpty($DestinationFile)){
-        $DestinationFile = Join-Path $PWD -ChildPath "OpenExplorerWindows.txt"
+    if([String]::IsNullOrEmpty($DestinationFolder)){
+        $DestinationFolder = $PWD
     }
-    elseif(-not(Test-PathIsLikelyFile -Path $DestinationFile)){
-        throw "DestinationFile is an invalid filename."
+    if([String]::IsNullOrEmpty($DestinationFilename)){
+        $Date = Get-Date -Format "MM-dd-yyyy HH-mm-ss"
+        $DestinationFilename = "${Date}.txt"
     }
 
-    $DPath = Get-UniqueFileOrFolderNameIfDuplicate -LiteralPath $DestinationFile
+    $DestinationFile = Join-Path $DestinationFolder -ChildPath $DestinationFilename
+    $DPath = Get-UniqueFileOrFolderNameIfDuplicate -Path $DestinationFile
     New-Item -Path $DPath -ItemType File -Force | Out-Null
 
     [Array] $oWindows = Get-WindowsOpenDirectories

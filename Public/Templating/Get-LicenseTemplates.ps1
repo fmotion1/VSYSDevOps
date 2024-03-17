@@ -1,6 +1,6 @@
 function Get-LicenseTemplates {
 
-    $Templates = Get-DevOpsConfigSetting -Key 'TemplatesFolder'
+    $Templates = Get-DevOpsConfigSetting -Key 'TemplatesPath'
     $LicenseTemplates = Join-Path $Templates -ChildPath '\license\'
 
     $LicenseFolders = Get-ChildItem -LiteralPath $LicenseTemplates -Directory

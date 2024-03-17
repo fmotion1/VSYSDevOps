@@ -24,7 +24,8 @@ function Install-PythonPredefinedVENV {
     begin {
 
         $VenvList = [System.Collections.Generic.List[hashtable]]@()
-        $VenvRequirementsFolder = "$PSModuleRoot\templates\python_venv_requirements\"
+        $TemplatesPath = Get-DevOpsConfigSetting -Key TemplatesPath
+        $VenvRequirementsFolder = "$TemplatesPath\python_venv_requirements\"
 
         $hFontTools =  @{ ID = 'fonttools'; Version='3.12'; Requirements = 'fonttools.txt'; Name = 'FontTools' }
         $hImageOps  =  @{ ID = 'imageops';  Version='3.12'; Requirements = 'imageops.txt'; Name = 'ImageOps' }

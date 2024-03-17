@@ -7,6 +7,14 @@ foreach ($Import in @($Public + $Private)) {
     }
 }
 
+if (-not $script:DevOpsConfigFile) {
+    $script:DevOpsConfigFile = Join-Path $PSScriptRoot -ChildPath 'Config.psd1'
+}
+
+if (-not $script:DevOpsUserConfigFile){
+    $script:DevOpsUserConfigFile = Join-Path $PSScriptRoot -ChildPath 'userconfig.json'
+}
+
 Register-ArgumentCompleter -CommandName Get-DevOpsUserConfigSetting -ParameterName Key -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
 
@@ -31,6 +39,36 @@ Register-ArgumentCompleter -CommandName Get-DevOpsConfigSetting -ParameterName K
         foreach ($K in $ModuleConfigData) {
             $ConfigKeys += $K.Keys
         }
+
+        $script:DevOpsConfigValues = $ConfigKeys
+    }
+
+    $script:DevOpsConfigValues | Where-Object { $_ -like "$wordToComplete*" }
+}
+
+if (-not $script:DevOpsLicenseTemplates) {
+    $ModuleConfigFile = Join-Path $PSScriptRoot -ChildPath 'Config.psd1'
+    [hashtable] $ModuleConfigData = Import-PowerShellDataFile -Path $ModuleConfigFile
+    [array] $ConfigKeys = @()
+    foreach ($K in $ModuleConfigData) {
+        $ConfigKeys += $K.Keys
+    }
+
+    $script:DevOpsConfigValues = $ConfigKeys
+}
+
+
+Register-ArgumentCompleter -CommandName Get-LicenseTemplate -ParameterName Template -ScriptBlock {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+
+    if (-not $script:DevOpsLicenseTemplateNames) {
+        $ModuleConfigFile = Join-Path $PSScriptRoot -ChildPath 'Config.psd1'
+        [hashtable] $ModuleConfigData = Import-PowerShellDataFile -Path $ModuleConfigFile
+        [array] $ConfigKeys = @()
+        foreach ($K in $ModuleConfigData) {
+            $ConfigKeys += $K.Keys
+        }
+
         $script:DevOpsConfigValues = $ConfigKeys
     }
 

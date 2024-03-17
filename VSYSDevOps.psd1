@@ -67,9 +67,9 @@
                          'Update-NodeGlobalPackagesPerVersion',
                          'Test-PathIsLikelyDirectory',
                          'Test-PathIsLikelyFile',
-                         'Confirm-FolderIsPythonVENV',
+                         'Confirm-PythonFolderIsVENV',
                          'Confirm-PythonPyPiPackageExists',
-                         'Get-InstalledPythonVersionsPYLauncher',
+                         'Get-PythonInstalledVersions',
                          'Get-MinicondaInstallDetails',
                          'Get-PythonVENVDetails',
                          'Install-PythonPredefinedVENV',
@@ -142,7 +142,13 @@
                          'Join-StringByNewlinesWithDelimiter',
                          'Get-DevOpsConfigSetting',
                          'Get-DevOpsUserConfigSetting',
-                         'Get-GitignoreTemplates'
+                         'Get-GitignoreTemplates',
+                         'Use-PythonActivateVENVInFolder',
+                         'Update-PythonPackagesInVENV',
+                         'Update-PythonPIPInVENV',
+                         'Update-PythonPIPGlobally',
+                         'Use-PythonFreezeVENVToRequirements',
+                         'Use-PythonInstallRequirementsToVENV'
 
     PrivateData = @{
         PSData = @{

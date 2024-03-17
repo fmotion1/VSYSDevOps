@@ -1,4 +1,4 @@
-﻿function Get-InstalledPythonVersionsPYLauncher {
+﻿function Get-PythonInstalledVersions {
     [CmdletBinding(DefaultParameterSetName = 'All')]
     param (
 

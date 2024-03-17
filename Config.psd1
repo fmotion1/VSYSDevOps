@@ -3,6 +3,10 @@
     OutputLevel = 'Error'
 
     # Template folder
-    TemplatesFolder = 'D:\Dev\Powershell\VSYSModules\VSYSDevOps\templates'
-    ModuleRoot = 'D:\Dev\Powershell\VSYSModules\VSYSDevOps'
+    TemplatesPath = './templates/'
+    ModuleRoot = './'
+
+    # CSharpTemplate Default Values
+    CSDefaultNamespace = "VSYSDevOps"
+    CSDefaultProjectPath = "./csharp"
 }

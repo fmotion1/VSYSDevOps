@@ -16,7 +16,13 @@
         if (Test-Path -Path $ConfigFile) {
             try {
                 $Config = Import-PowerShellDataFile -Path $ConfigFile
-                Write-Output $Config.$Key
+                if(($Key -eq 'TemplatesPath') -or ($Key -eq 'ModuleRoot') -or ($Key -eq 'CSDefaultProjectPath')){
+                    $Resolved = Resolve-Path -Path $Config.$Key
+                    Write-Output $Resolved
+                }
+                else{
+                    Write-Output $Config.$Key
+                }
             }
             catch {
                 Write-Error -Message $_.Exception.Message
