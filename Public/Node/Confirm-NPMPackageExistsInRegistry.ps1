@@ -1,4 +1,5 @@
 ﻿function Confirm-NPMPackageExistsInRegistry {
+    [OutputType([bool])]
     [CmdletBinding()]
     param (
         [Parameter(Mandatory,Position=0)]

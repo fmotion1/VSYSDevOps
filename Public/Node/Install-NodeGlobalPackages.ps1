@@ -37,20 +37,18 @@ class NodeVersions : IValidateSetValuesGenerator {
 #>
 function Install-NodeGlobalPackages {
     param(
-        [Parameter(Mandatory,Position=0,ValueFromPipeline,ValueFromPipelineByPropertyName)]
+        [Parameter(Mandatory,Position=0)]
         [ValidateSet([NodeVersions])]
         $Version,
-
-        [Parameter(Mandatory,ValueFromPipeline,ValueFromPipelineByPropertyName)]
-        [String[]]
-        $Packages,
-
-        [Switch]$Prompt
-
+        [Parameter(Mandatory)]
+        [String[]] $Packages,
+        [Switch] $Prompt
     )
 
     if($Prompt){
-        $PackagesList = $Packages -join ', '
+        if($Packages.Count -gt 1){
+            $PackagesList = $Packages -join ', '
+        }
         $Plural = ($Packages.Count -gt 1) ? 'packages' : 'package'
         Write-SpectreHost "The $Plural [white]$PackagesList[/] will be installed in the following node version: [white]$Version[/]"
         $Result = Read-SpectreConfirm -Prompt "Do you want to continue?"
@@ -75,9 +73,10 @@ function Install-NodeGlobalPackages {
         throw $_
     }
 
-    $PackagesString = $Packages -join ' '
+    $PackagesString = $Packages
+    if($Packages.Count -gt 1){
+        $PackagesString = $Packages -join ' '
+    }
+
     Invoke-Expression "$NPMCmd install -g $PackagesString"
-
-    #& $NPMCmd install -g $Packages.Trim()
-
 }

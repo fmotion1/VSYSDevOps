@@ -1,10 +1,20 @@
 {
-    "LicenseOwner": "Futuremotion",
-    "LicenseYear": "2024",
-    "LicenseEmail": "admin@fmotiondev.com",
-    "UserName": "Futuremotion",
-    "UserHomepage": "http://www.github.com/fmotion1",
-    "DefaultLicense": "MIT License",
-    "DefaultGitignoreTemplate": "general",
-    "DefaultGitBranch": "main"
+    "Global.UserSettings.UserName": "Futuremotion",
+    "Global.UserSettings.UserHomepage": "http://www.github.com/fmotion1",
+
+    "Templates.License.DefaultTemplate": "MIT License",
+    "Templates.License.LicenseOwner": "Futuremotion",
+    "Templates.License.LicenseYear": "2024",
+    "Templates.License.LicenseEmail": "admin@fmotiondev.com",
+    "Templates.Gitignore.DefaultTemplate": "general",
+    "Templates.VSCodeExtension.DefaultPublisher": "Futuremotion",
+    "Templates.VSCodeExtension.DefaultAuthor": "Futuremotion",
+    "Templates.VSCodeExtension.DefaultLicense": "MIT",
+    "Templates.VSCodeExtension.DefaultReadmeFilename": "README.md",
+    "Templates.VSCodeExtension.DefaultReadmeTemplate": "MIT",
+
+    "Git.DefaultBranchName": "main",
+    "Git.DefaultInitialCommitMessage": "Initial Commit",
+    "GitHub.DefaultHomepage": "http://www.github.com/fmotion1",
+    "GitHub.DefaultVisibility": "Private"
 }

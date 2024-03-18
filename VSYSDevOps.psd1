@@ -148,7 +148,9 @@
                          'Update-PythonPIPInVENV',
                          'Update-PythonPIPGlobally',
                          'Use-PythonFreezeVENVToRequirements',
-                         'Use-PythonInstallRequirementsToVENV'
+                         'Use-PythonInstallRequirementsToVENV',
+                         'ConvertFrom-HashtableToPSObject',
+                         'Get-InstalledNodeNPMVersions'
 
     PrivateData = @{
         PSData = @{

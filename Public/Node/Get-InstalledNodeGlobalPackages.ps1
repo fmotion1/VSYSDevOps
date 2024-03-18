@@ -66,17 +66,14 @@ function Get-InstalledNodeGlobalPackages {
 
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$false)]
         [int32] $TableWidth,
         [Switch] $ShowHeader = $false,
         [Switch] $ClearScreen,
         [Switch] $IncludeOldBranches,
 
-        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName)]
         [ValidateSet('Table','Json','List', IgnoreCase = $true, ErrorMessage="'{0}' is not a valid Output Format.")]
         [String] $OutputFormat='Table',
 
-        [Parameter(Mandatory=$false,ValueFromPipelineByPropertyName)]
         [ValidateSet([NVMNodeVersions], ErrorMessage="'{0}' is not valid. That version of node is not installed or inaccessable to NVM.")]
         [Array] $SelectVersions = 'ALL'
     )

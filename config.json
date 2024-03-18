@@ -1,0 +1,12 @@
+{
+    "System.OutputLevel": "Error",
+    "System.Configuration": "Debug",
+
+    "Templates.License.Email": "admin@fmotiondev.com",
+    "Templates.License.DefaultTemplate": "MIT License",
+    "Templates.Gitignire.DefaultTemplate": "general",
+    "Templates.Gitignire.DefaultBranch": "main"
+
+
+
+}
