@@ -6,6 +6,7 @@
     "Templates.License.LicenseOwner": "Futuremotion",
     "Templates.License.LicenseYear": "2024",
     "Templates.License.LicenseEmail": "admin@fmotiondev.com",
+
     "Templates.Gitignore.DefaultTemplate": "general",
     "Templates.VSCodeExtension.DefaultPublisher": "Futuremotion",
     "Templates.VSCodeExtension.DefaultAuthor": "Futuremotion",

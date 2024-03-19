@@ -7,91 +7,105 @@ foreach ($Import in @($Public + $Private)) {
     }
 }
 
+# GOOGLE TRANSLATE DATA  ############################################################
+#####################################################################################
+
+
+
+$script:LanguagesCsv = ConvertFrom-Csv -InputObject (Get-Content "$PSScriptRoot/Languages.csv" -Raw)
+
+$LanguageToCode = @{}
+$CodeToLanguage = @{}
+
+foreach ($row in $script:LanguagesCsv)
+{
+    $LanguageToCode[$row.Language] = $row.Code
+    $CodeToLanguage[$row.Code] = $row.Language
+}
+
+$script:PairOfSourceLanguageAndCode = $script:LanguagesCsv | ForEach-Object { $_.Language, $_.Code }
+$script:PairOfTargetLanguageAndCode = $script:LanguagesCsv | Where-Object { $_.Code -ine 'auto' } | ForEach-Object { $_.Language, $_.Code }
+
+
+# MODULE CONFIG FILE DEFINITIONS  ###################################################
+#####################################################################################
+
 if (-not $script:DevOpsConfigFile) {
     $script:DevOpsConfigFile = Join-Path $PSScriptRoot -ChildPath 'Config.psd1'
 }
+
+if (-not $script:DevOpsUserConfigFile) {
+    $script:DevOpsUserConfigFile = Join-Path $PSScriptRoot -ChildPath 'userconfig.json'
+}
+
+
+# MODULE IMPORTANT PATHS AND FILES  #################################################
+#####################################################################################
+
+if (-not $script:TemplatesPath){
+    $script:TemplatesPath = Resolve-Path -Path (Join-Path $PSScriptRoot -ChildPath 'templates')
+}
+
+if (-not $script:ModuleAssembliesPath){
+    $script:ModuleAssembliesPath = Resolve-Path -Path (Join-Path $PSScriptRoot -ChildPath 'lib')
+}
+
+if (-not $script:PythonVenvPath){
+    $script:PythonVenvPath = Resolve-Path -Path (Join-Path $PSScriptRoot -ChildPath 'python_venv')
+}
+
+if (-not $script:PythonScriptsPath){
+    $script:PythonScriptsPath = Resolve-Path -Path (Join-Path $PSScriptRoot -ChildPath 'python_scripts')
+}
+
+
+# MODULE CONFIG DATA  ###############################################################
+
 if (-not $script:DevOpsConfigData){
     $DevOpsConfigHash = Import-PowerShellDataFile -Path $script:DevOpsConfigFile
     $script:DevOpsConfigData = ConvertFrom-HashtableToPSObject -HashTable $DevOpsConfigHash
 }
+
+
+
 if (-not $script:DevOpsConfigKeys){
     $script:DevOpsConfigKeys = $script:DevOpsConfigData.PSObject.Properties.Name
 }
-if (-not $script:DevOpsUserConfigFile){
-    $script:DevOpsUserConfigFile = Join-Path $PSScriptRoot -ChildPath 'userconfig.json'
-}
+
+
+
+
+# USER CONFIG DATA  #################################################################
+
+
 if (-not $script:DevOpsUserConfigData){
     $script:DevOpsUserConfigData = Get-Content -Path $script:DevOpsUserConfigFile -Raw | ConvertFrom-Json
 }
 if (-not $script:DevOpsUserConfigKeys) {
     $script:DevOpsUserConfigKeys = $script:DevOpsUserConfigData.PSObject.Properties.Name
 }
-if (-not $script:TemplatesPath){
-    $TemplatesPath = $script:DevOpsConfigData.TemplatesRootPath
-    $script:TemplatesPath = Resolve-Path -Path (Join-Path $PSScriptRoot -ChildPath $TemplatesPath)
-}
-# if (-not $script:BoilerplatesTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:DockerFileTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:DockerIgnoreTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:EditorConfigTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:ESLintRCTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:GithubTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:GitignoreTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:JSConfigTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:NPMIgnoreTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:NPMrcTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:OmnisharpJSONTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:PrettierIgnoreTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:PrettierRCTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:BoilerplatesTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:PythonVENVInstallTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:PythonVENVTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:SVGOConfigTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
-# if (-not $script:TSConfigJSONTemplatesPath){
-#     $script:BoilerplatesTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'boilerplates'
-# }
+
+# LICENSE TEMPLATE VARIABLES  #######################################################
 
 if (-not $script:LicenseTemplatesPath){
     $script:LicenseTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'license'
 }
+
 if (-not $script:LicenseTemplatesObject){
     $LicenseMetadataFile = Join-Path $script:LicenseTemplatesPath -ChildPath 'metadata.json'
     $LicenseMetadataJSON = Get-Content -Path $LicenseMetadataFile -Raw
     $script:LicenseTemplatesObject = $LicenseMetadataJSON | ConvertFrom-Json
+}
+
+if(-not $script:LicenseTemplateKeys){
+    $LicenseTemplatesObj = $script:LicenseTemplatesObject
+    $LicenseTemplatesKeyArr = @()
+
+    foreach ($obj in $LicenseTemplatesObj) {
+        $LicenseTemplatesKeyArr += $obj.name
+    }
+
+    $script:LicenseTemplateKeys = $LicenseTemplatesKeyArr
 }
 
 if (-not $script:LicenseTemplatesData) {
@@ -126,6 +140,63 @@ if (-not $script:LicenseTemplatesData) {
     $script:LicenseTemplateData = $LicenseTemplatesArr
 }
 
+# GITIGNORE TEMPLATE VARIABLES  #####################################################
+
+if (-not $script:LicenseTemplatesPath){
+    $script:LicenseTemplatesPath = Join-Path -Path $script:TemplatesPath -ChildPath 'license'
+}
+
+if (-not $script:LicenseTemplatesObject){
+    $LicenseMetadataFile = Join-Path $script:LicenseTemplatesPath -ChildPath 'metadata.json'
+    $LicenseMetadataJSON = Get-Content -Path $LicenseMetadataFile -Raw
+    $script:LicenseTemplatesObject = $LicenseMetadataJSON | ConvertFrom-Json
+}
+
+if(-not $script:LicenseTemplateKeys){
+    $LicenseTemplatesObj = $script:LicenseTemplatesObject
+    $LicenseTemplatesKeyArr = @()
+
+    foreach ($obj in $LicenseTemplatesObj) {
+        $LicenseTemplatesKeyArr += $obj.name
+    }
+
+    $script:LicenseTemplateKeys = $LicenseTemplatesKeyArr
+}
+
+if (-not $script:LicenseTemplatesData) {
+
+    $LicenseTemplatesObj = $script:LicenseTemplatesObject
+    $LicenseTemplatesArr = @()
+
+    foreach ($obj in $LicenseTemplatesObj) {
+
+        $CurrentObj = [PSCustomObject][Ordered]@{
+            LicenseName          =  $obj.name
+            LicenseFolder        =  $script:LicenseTemplatesPath
+            LicensePath          =  (Join-Path $script:LicenseTemplatesPath -ChildPath $obj.path)
+            LicenseVariables     =  @()
+            LicenseVariableCount =  0
+        }
+
+        foreach ($variable in $obj.variables){
+            $VariableObject = [PSCustomObject]@{
+                VariableName        =  $variable.name
+                VariablePattern     =  $variable.variable
+                VariableUserConfig  =  $variable.userConfig
+                VariableDescription =  $variable.description
+            }
+            $CurrentObj.LicenseVariables += $VariableObject
+            $CurrentObj.LicenseVariableCount += 1
+        }
+
+        $LicenseTemplatesArr += $CurrentObj
+    }
+
+    $script:LicenseTemplateData = $LicenseTemplatesArr
+}
+
+
+
 Register-ArgumentCompleter -CommandName Get-DevOpsUserConfigSetting -ParameterName Key -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     $script:DevOpsUserconfigKeys | Where-Object { $_ -like "$wordToComplete*" }
@@ -134,6 +205,11 @@ Register-ArgumentCompleter -CommandName Get-DevOpsUserConfigSetting -ParameterNa
 Register-ArgumentCompleter -CommandName Get-DevOpsConfigSetting -ParameterName Key -ScriptBlock {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     $script:DevOpsConfigKeys | Where-Object { $_ -like "$wordToComplete*" }
+}
+
+Register-ArgumentCompleter -CommandName Get-LicenseTemplate -ParameterName Template -ScriptBlock {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    $script:LicenseTemplateKeys | Where-Object { $_ -like "$wordToComplete*" }
 }
 
 
@@ -217,8 +293,10 @@ function DevOpsDebug-PrintLicenseTemplateData {
 if($script:DevOpsConfigData.Configuration -eq 'Debug'){
     Write-SpectreHost "[#f58b95]DevOps Debug configuration is set.[/]"
     Write-Host ""
+    DevOpsDebug-PrintGlobalConfigData
+    DevOpsDebug-PrintUserConfigData
+    DevOpsDebug-PrintTemplatesData
     DevOpsDebug-PrintLicenseTemplateData
-
 }
 
 # Register-ArgumentCompleter -CommandName Get-LicenseTemplate -ParameterName Template -ScriptBlock {

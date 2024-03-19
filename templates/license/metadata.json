@@ -5,13 +5,13 @@
         "variables": [
             {
                 "name": "Copyright Owner",
-                "userConfig": "LicenseOwner",
+                "userConfig": "Templates.License.LicenseOwner",
                 "variable": "{%COPYRIGHT_OWNER%}",
                 "description": "The copyright owner."
             },
             {
                 "name": "Copyright Year",
-                "userConfig": "LicenseYear",
+                "userConfig": "Templates.License.Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             }
@@ -23,13 +23,13 @@
         "variables": [
             {
                 "name": "Copyright Year",
-                "userConfig": "LicenseYear",
+                "userConfig": "Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             },
             {
                 "name": "Copyright Owner",
-                "userConfig": "LicenseOwner",
+                "userConfig": "Templates.License.LicenseOwner",
                 "variable": "{%COPYRIGHT_OWNER%}",
                 "description": "The copyright owner."
             }
@@ -41,13 +41,13 @@
         "variables": [
             {
                 "name": "Copyright Year",
-                "userConfig": "LicenseYear",
+                "userConfig": "Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             },
             {
                 "name": "Copyright Owner",
-                "userConfig": "LicenseOwner",
+                "userConfig": "Templates.License.LicenseOwner",
                 "variable": "{%COPYRIGHT_OWNER%}",
                 "description": "The copyright owner."
             }
@@ -69,13 +69,13 @@
         "variables": [
             {
                 "name": "Copyright Year",
-                "userConfig": "LicenseYear",
+                "userConfig": "Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             },
             {
                 "name": "Copyright Owner",
-                "userConfig": "LicenseOwner",
+                "userConfig": "Templates.License.LicenseOwner",
                 "variable": "{%COPYRIGHT_OWNER%}",
                 "description": "The copyright owner."
             }
@@ -87,13 +87,13 @@
         "variables": [
             {
                 "name": "Copyright Year",
-                "userConfig": "LicenseYear",
+                "userConfig": "Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             },
             {
                 "name": "Copyright Owner",
-                "userConfig": "LicenseOwner",
+                "userConfig": "Templates.License.LicenseOwner",
                 "variable": "{%COPYRIGHT_OWNER%}",
                 "description": "The copyright owner."
             }
@@ -105,13 +105,13 @@
         "variables": [
             {
                 "name": "Copyright Year",
-                "userConfig": "LicenseYear",
+                "userConfig": "Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             },
             {
                 "name": "Copyright Owner",
-                "userConfig": "LicenseOwner",
+                "userConfig": "Templates.License.LicenseOwner",
                 "variable": "{%COPYRIGHT_OWNER%}",
                 "description": "The copyright owner."
             }
@@ -128,19 +128,19 @@
         "variables": [
             {
                 "name": "Copyright Year",
-                "userConfig": "LicenseYear",
+                "userConfig": "Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             },
             {
                 "name": "Copyright Owner",
-                "userConfig": "LicenseOwner",
+                "userConfig": "Templates.License.LicenseOwner",
                 "variable": "{%COPYRIGHT_OWNER%}",
                 "description": "The copyright owner."
             },
             {
                 "name": "Copyright Owner Email",
-                "userConfig": "LicenseEmail",
+                "userConfig": "Templates.License.LicenseEmail",
                 "variable": "{%COPYRIGHT_EMAIL%}",
                 "description": "The email address of the copyright owner."
             }

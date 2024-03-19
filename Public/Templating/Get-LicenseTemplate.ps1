@@ -1,18 +1,38 @@
 ﻿function Get-LicenseTemplate {
-    [CmdletBinding()]
+
     param (
-        [Parameter(Mandatory,ValueFromPipeline)]
-        $Template
+        [Parameter(Mandatory)]
+        $Template,
+        [ValidateSet('Object','LicenseName','LicenseVariables','LicenseVariableCount', IgnoreCase = $true)]
+        [String] $ReturnType = 'Object'
     )
 
-    process {
+    $LicenseTemplatesData = $script:LicenseTemplateData
 
-        $DevOpsTemplates = Get-DevOpsConfigSetting -Key TemplatesPath
-        $LicenseTemplatesPath = Join-Path -Path $DevOpsTemplates -ChildPath 'license'
+    foreach ($LicenseTemplate in $LicenseTemplatesData) {
 
+        if($LicenseTemplate.LicenseName -eq $Template) {
 
-        foreach ($T in $Template) {
+            if($ReturnType -eq 'Object'){
+                $LicenseObject = [PSCustomObject]@{
+                    LicenseName          =  $LicenseTemplate.LicenseName
+                    LicenseFolder        =  $LicenseTemplate.LicenseFolder
+                    LicensePath          =  $LicenseTemplate.LicensePath
+                    LicenseVariableCount =  $LicenseTemplate.LicenseVariableCount
+                    LicenseVariables     =  $LicenseTemplate.LicenseVariables
+                }
 
+                return $LicenseObject
+            }
+            elseif($ReturnType -eq 'LicenseName'){
+                return $LicenseTemplate.LicenseName
+            }
+            elseif($ReturnType -eq 'LicenseVariables'){
+                return $LicenseTemplate.LicenseVariables
+            }
+            elseif($ReturnType -eq 'LicenseVariableCount'){
+                $LicenseTemplate.LicenseVariableCount
+            }
         }
     }
 }

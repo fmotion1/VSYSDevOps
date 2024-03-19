@@ -2,7 +2,7 @@
 
 class AvailableLicenseTemplates : IValidateSetValuesGenerator {
     [string[]] GetValidValues() {
-        $v = Get-LicenseTemplates | Sort-Object -Descending
+        $v = Get-LicenseAllTemplates -OnlyKeys | Sort-Object -Descending
         return $v.Name
     }
 }
@@ -29,19 +29,19 @@ function Save-LicenseToFolder {
             return
         }
 
-        $LicMaster = Get-LicenseTemplates | Sort-Object -Descending
+        $AllLicenseTemplates = Get-LicenseAllTemplates | Sort-Object -Descending
 
-        foreach ($idx in $LicMaster) {
-            if($idx.Name -eq $LicenseType){
-                $CurrentLicense = $idx
+        foreach ($Template in $AllLicenseTemplates) {
+            if($Template.LicenseName -eq $LicenseType){
+                $CurrentLicense = $Template
                 break
             }
         }
 
         $LicenseDestination = Join-Path $Folder -ChildPath 'LICENSE'
         $LicenseExists = Test-Path -LiteralPath $LicenseDestination -PathType Leaf
-        $LicenseTemplatePath = $CurrentLicense.LicenseFile
-        $LicenseVariables = $CurrentLicense.Variables
+        $LicenseTemplatePath = $CurrentLicense.LicensePath
+        $LicenseVariables = $CurrentLicense.LicenseVariables
 
         If($LicenseExists){
             if(-not$Force){
@@ -54,11 +54,12 @@ function Save-LicenseToFolder {
 
         if($LicenseVariables.Count -gt 0){
             try {
+
                 $LicenseContent = Get-Content -Path $LicenseDestination -Raw
 
                 foreach ($Var in $LicenseVariables) {
-                    $VariablePlaceholder = [regex]::Escape($Var.variable)
-                    $ToReplace = Get-DevOpsUserConfigSetting -Key ($Var.userConfig)
+                    $VariablePlaceholder = [regex]::Escape($Var.VariablePattern)
+                    $ToReplace = Get-DevOpsUserConfigSetting -Key ($Var.VariableUserConfig)
                     $LicenseContent = $LicenseContent -replace $VariablePlaceholder, $ToReplace
                 }
                 Set-Content -LiteralPath $LicenseDestination -Value $LicenseContent -Force
