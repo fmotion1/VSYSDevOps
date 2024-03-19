@@ -47,9 +47,12 @@
             }
         }
 
-        return $newName
+
+        return (Join-Path $parentDirectory -ChildPath $newName)
     }
     else {
-        return $fileOrFolderName
+        return $Path
     }
 }
+
+

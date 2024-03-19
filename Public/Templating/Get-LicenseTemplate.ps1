@@ -1,37 +1,55 @@
-﻿function Get-LicenseTemplate {
+﻿using namespace System.Management.Automation
+class LicenseTemplateName : IValidateSetValuesGenerator {
+    [string[]] GetValidValues() {
+        return $script:LicenseTemplateKeys
+    }
+}
+function Get-LicenseTemplate {
 
     param (
-        [Parameter(Mandatory)]
-        $Template,
-        [ValidateSet('Object','LicenseName','LicenseVariables','LicenseVariableCount', IgnoreCase = $true)]
+        [Parameter(Mandatory,Position=0,ValueFromPipeline)]
+        [ValidateSet([LicenseTemplateName])]
+        [String[]] $Template,
+
+        [ValidateSet('Object','LicenseName','LicensePath','LicenseVariables','LicenseVariableCount', IgnoreCase = $true)]
         [String] $ReturnType = 'Object'
     )
 
-    $LicenseTemplatesData = $script:LicenseTemplateData
+    begin{
 
-    foreach ($LicenseTemplate in $LicenseTemplatesData) {
+        $LicenseTemplatesData = $script:LicenseTemplateData
 
-        if($LicenseTemplate.LicenseName -eq $Template) {
+    }
 
-            if($ReturnType -eq 'Object'){
-                $LicenseObject = [PSCustomObject]@{
-                    LicenseName          =  $LicenseTemplate.LicenseName
-                    LicenseFolder        =  $LicenseTemplate.LicenseFolder
-                    LicensePath          =  $LicenseTemplate.LicensePath
-                    LicenseVariableCount =  $LicenseTemplate.LicenseVariableCount
-                    LicenseVariables     =  $LicenseTemplate.LicenseVariables
+    process {
+        foreach($Temp in $Template){
+
+            foreach ($LicenseTemplate in $LicenseTemplatesData) {
+                if($LicenseTemplate.LicenseName -eq $Temp) {
+                    if($ReturnType -eq 'Object'){
+                        $LicenseObject = [PSCustomObject]@{
+                            LicenseName          =  $LicenseTemplate.LicenseName
+                            LicenseFolder        =  $LicenseTemplate.LicenseFolder
+                            LicensePath          =  $LicenseTemplate.LicensePath
+                            LicenseVariables     =  $LicenseTemplate.LicenseVariables
+                            LicenseVariableCount =  $LicenseTemplate.LicenseVariableCount
+                        }
+                        $LicenseObject
+                    }
+                    elseif($ReturnType -eq 'LicensePath'){
+                        $LicenseTemplate.LicenseName
+                    }
+                    elseif($ReturnType -eq 'LicenseName'){
+                        $LicenseTemplate.LicenseName
+                    }
+                    elseif($ReturnType -eq 'LicenseVariables'){
+                        $LicenseTemplate.LicenseVariables
+                    }
+                    elseif($ReturnType -eq 'LicenseVariableCount'){
+                        $LicenseTemplate.LicenseVariableCount
+                    }
+                    break
                 }
-
-                return $LicenseObject
-            }
-            elseif($ReturnType -eq 'LicenseName'){
-                return $LicenseTemplate.LicenseName
-            }
-            elseif($ReturnType -eq 'LicenseVariables'){
-                return $LicenseTemplate.LicenseVariables
-            }
-            elseif($ReturnType -eq 'LicenseVariableCount'){
-                $LicenseTemplate.LicenseVariableCount
             }
         }
     }

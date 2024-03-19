@@ -1,7 +1,7 @@
 [
     {
         "name": "Apache License v2.0",
-        "path": "apache-2/LICENSE",
+        "path": "apache-2",
         "variables": [
             {
                 "name": "Copyright Owner",
@@ -11,7 +11,7 @@
             },
             {
                 "name": "Copyright Year",
-                "userConfig": "Templates.License.Templates.License.LicenseYear",
+                "userConfig": "Templates.License.LicenseYear",
                 "variable": "{%COPYRIGHT_YEAR%}",
                 "description": "The effective copyright year."
             }
@@ -19,7 +19,7 @@
     },
     {
         "name": "BSD 2-Clause License",
-        "path": "bsd2-clause/LICENSE",
+        "path": "bsd2-clause",
         "variables": [
             {
                 "name": "Copyright Year",
@@ -37,7 +37,7 @@
     },
     {
         "name": "BSD 3-Clause License",
-        "path": "bsd3-clause/LICENSE",
+        "path": "bsd3-clause",
         "variables": [
             {
                 "name": "Copyright Year",
@@ -55,17 +55,17 @@
     },
     {
         "name": "GNU General Public License v2",
-        "path": "gnu-gpl-2/LICENSE",
+        "path": "gnu-gpl-2",
         "variables": []
     },
     {
         "name": "GNU General Public License v3",
-        "path": "gnu-gpl-3/LICENSE",
+        "path": "gnu-gpl-3",
         "variables": []
     },
     {
         "name": "ISC License",
-        "path": "isc/LICENSE",
+        "path": "isc",
         "variables": [
             {
                 "name": "Copyright Year",
@@ -83,7 +83,7 @@
     },
     {
         "name": "MIT License",
-        "path": "mit/LICENSE",
+        "path": "mit",
         "variables": [
             {
                 "name": "Copyright Year",
@@ -101,7 +101,7 @@
     },
     {
         "name": "MIT No Attribution License",
-        "path": "mit-no-attribution/LICENSE",
+        "path": "mit-no-attribution",
         "variables": [
             {
                 "name": "Copyright Year",
@@ -119,12 +119,12 @@
     },
     {
         "name": "Mozilla Public License v2.0",
-        "path": "mozilla-public-2/LICENSE",
+        "path": "mozilla-public-2",
         "variables": []
     },
     {
         "name": "SIL Open Font License 1.1",
-        "path": "sil-open-font-1.1/LICENSE",
+        "path": "sil-open-font-1.1",
         "variables": [
             {
                 "name": "Copyright Year",
@@ -148,7 +148,7 @@
     },
     {
         "name": "The Unilicense",
-        "path": "the-unilicense/LICENSE",
+        "path": "the-unilicense",
         "variables": []
     }
 ]

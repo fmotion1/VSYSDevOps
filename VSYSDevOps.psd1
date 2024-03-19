@@ -151,7 +151,9 @@
                          'Use-PythonFreezeVENVToRequirements',
                          'Use-PythonInstallRequirementsToVENV',
                          'ConvertFrom-HashtableToPSObject',
-                         'Get-InstalledNodeNPMVersions'
+                         'Get-InstalledNodeNPMVersions',
+                         'Get-TemplatesPath',
+                         'Get-TemplateData'
 
     PrivateData = @{
         PSData = @{

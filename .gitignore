@@ -15,7 +15,7 @@ project.fragment.lock.json
 .history/
 
 # DotCover Code Coverage Tool
-*.dotCover# 
+*.dotCover#
 
 Windows Store app package directories and files
 Package.StoreAssociation.xml
@@ -53,3 +53,5 @@ temp/
 obsolete/
 testing/
 test/
+PSGoogleTranslate/
+Languages.csv
