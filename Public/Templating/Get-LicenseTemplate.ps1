@@ -6,6 +6,7 @@ class LicenseTemplateName : IValidateSetValuesGenerator {
 }
 function Get-LicenseTemplate {
 
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory,Position=0,ValueFromPipeline)]
         [ValidateSet([LicenseTemplateName])]
@@ -13,18 +14,19 @@ function Get-LicenseTemplate {
 
         [ValidateSet('Object','LicenseName','LicensePath','LicenseVariables','LicenseVariableCount', IgnoreCase = $true)]
         [String] $ReturnType = 'Object'
+
     )
 
     begin{
-
-        $LicenseTemplatesData = $script:LicenseTemplateData
-
+        $LicenseTemplatesData = Get-LicenseTemplateData
     }
 
     process {
+
         foreach($Temp in $Template){
 
             foreach ($LicenseTemplate in $LicenseTemplatesData) {
+
                 if($LicenseTemplate.LicenseName -eq $Temp) {
                     if($ReturnType -eq 'Object'){
                         $LicenseObject = [PSCustomObject]@{

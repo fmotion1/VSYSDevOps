@@ -1,8 +1,7 @@
 ﻿using namespace System.Management.Automation
 class GitignoreTemplates : IValidateSetValuesGenerator {
     [string[]] GetValidValues() {
-        $GitignoreTemplates = Get-GitignoreTemplates | ForEach-Object { $_.Name }
-        return $GitignoreTemplates
+        return Get-GitignoreTemplates | ForEach-Object { $_.Name }
     }
 }
 function Save-GitignoreToFolder {
@@ -45,7 +44,7 @@ function Save-GitignoreToFolder {
         if($PSCmdlet.ParameterSetName -eq 'Template'){
 
             if($Template -eq ''){
-                $Template = Get-DevOpsUserConfigSetting -Key DefaultGitignoreTemplate
+                $Template = Get-DevOpsUserConfigSetting -Key Templates.Gitignore.DefaultTemplate
             }
 
             $GitignoreTemplates = Get-GitignoreTemplates

@@ -1,15 +1,16 @@
 ﻿function Get-GitignoreTemplates {
 
-    $Templates = Get-DevOpsConfigSetting -Key 'TemplatesPath'
-    $GitignoreTemplates = Join-Path $Templates -ChildPath '\gitignore\'
-    $GitignoreMetadata = Join-Path $GitignoreTemplates -ChildPath 'metadata.json'
+    $Templates = $script:TemplatesPath
+    $GitignoreTemplate = Get-DevOpsConfigSetting -Key System.Templates | ForEach-Object {$_} | Where-Object {$_.name -eq 'Gitignore'}
+    $GitignoreTemplateFolder = Join-Path $Templates -ChildPath $GitignoreTemplate.path
+    $GitignoreMetadata = Join-Path $GitignoreTemplateFolder -ChildPath 'metadata.json'
     $MetadataJSON = Get-Content -Path $GitignoreMetadata -Raw
     $MetadataObject = $MetadataJSON | ConvertFrom-Json
 
     $GitignoreDetails = ($MetadataObject.templates) | ForEach-Object {
         [PSCustomObject]@{
             Name = $_.name
-            File = Join-Path $GitignoreTemplates -ChildPath ($_.file)
+            File = Join-Path $GitignoreTemplateFolder -ChildPath ($_.file)
             Description = $_.description
         }
     }

@@ -74,8 +74,6 @@
                          'Get-PythonVENVDetails',
                          'Install-PythonPredefinedVENV',
                          'Install-PythonGlobalPackages',
-                         'Get-LicenseAllTemplates',
-                         'Get-LicenseTemplate',
                          'Save-DotnetAssemblyTemplate',
                          'Save-DotnetConsoleAppTemplate',
                          'Save-LicenseToFolder',
@@ -153,7 +151,10 @@
                          'ConvertFrom-HashtableToPSObject',
                          'Get-InstalledNodeNPMVersions',
                          'Get-TemplatesPath',
-                         'Get-TemplateData'
+                         'Get-TemplateData',
+                         'Get-LicenseTemplates',
+                         'Get-LicenseTemplateData',
+                         'Get-LicenseTemplate'
 
     PrivateData = @{
         PSData = @{
